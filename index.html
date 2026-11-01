@@ -244,7 +244,7 @@ header{display:flex;align-items:baseline;justify-content:space-between;gap:12px;
 
 <script>
 "use strict";
-var VERSION="1.1.0";
+var VERSION="1.2.0";
 const $=s=>document.querySelector(s);
 const CARR=200;               // porteuse binaurale (Hz)
 const F_MAX=14;               // plafond de sécurité du projet
@@ -252,11 +252,11 @@ const DUREES=[10,15,20,25,30,45,60];
 
 /* ---------- catalogue : [poids, f0, f1, couleur, onde] — onde 's' sinus, 'p' impulsion ---------- */
 const SEANCES=[
- {nom:'RELAXATION',min:20,but:"Détente progressive, de l'éveil calme vers un état posé.",ph:[[2,12,10,'rouge','s'],[3,10,8,'rouge','s'],[3,8,5,'rouge','s'],[3,5,4,'rouge','s'],[3,4,4,'rouge','s']]},
+ {nom:'RELAXATION',min:20,but:"Détente progressive, de l'éveil calme vers un état posé.",ph:[[2,12,10,'chaud','s'],[3,10,8,'chaud','s'],[3,8,5,'chaud','s'],[3,5,4,'chaud','s'],[3,4,4,'chaud','s']]},
  {nom:'IMAGINATION',min:25,but:"Rêverie éveillée et images mentales, avec des flashs nets.",ph:[[3,12,9,'balayage','p'],[4,9,7,'balayage','p'],[4,7,6,'balayage','p'],[5,6,6,'balayage','p']]},
  {nom:'HYPNAGOGIE',min:30,but:"Long palier à 7,83 Hz pour rester au seuil du sommeil.",ph:[[3,10,7.83,'ambre','s'],[10,7.83,7.83,'ambre','s'],[4,7.83,6.3,'ambre','s'],[5,6.3,6.3,'ambre','s']]},
- {nom:'ENDORMISSEMENT',min:20,but:"Descente continue jusqu'au delta pour s'endormir.",ph:[[2,10,6,'rouge','s'],[3,6,3,'rouge','s'],[3,3,1,'rouge','s'],[3,1,0.5,'rouge','s'],[3,0.5,0.5,'rouge','s']]},
- {nom:'RÊVE',min:25,but:"Glissement lent vers le sommeil profond.",ph:[[2,8,4,'rouge','s'],[3,4,2,'rouge','s'],[3,2,1,'rouge','s'],[3,1,0.5,'rouge','s'],[4,0.5,0.5,'rouge','s']]},
+ {nom:'ENDORMISSEMENT',min:20,but:"Descente continue jusqu'au delta pour s'endormir.",ph:[[2,10,6,'chaud','s'],[3,6,3,'chaud','s'],[3,3,1,'chaud','s'],[3,1,0.5,'chaud','s'],[3,0.5,0.5,'chaud','s']]},
+ {nom:'RÊVE',min:25,but:"Glissement lent vers le sommeil profond.",ph:[[2,8,4,'chaud','s'],[3,4,2,'chaud','s'],[3,2,1,'chaud','s'],[3,1,0.5,'chaud','s'],[4,0.5,0.5,'chaud','s']]},
  {nom:'ANCRAGE',min:15,but:"Courte séance de recentrage qui finit très bas.",ph:[[2,10,7.83,'ambre','s'],[4,7.83,7.83,'ambre','s'],[3,7.83,1.12,'ambre','s'],[4,1.12,1.12,'ambre','s']]},
  {nom:'MÉDITATION',min:30,but:"Méditation longue, descente lente vers 1 Hz.",ph:[[2,10,7.83,'violet','s'],[3,7.83,7.83,'violet','s'],[3,7.83,2.5,'violet','s'],[3,2.5,1.45,'violet','s'],[4,1.45,1.05,'violet','s'],[4,1.05,1.05,'violet','s']]},
  {nom:'TRANSE',min:30,but:"Plongée profonde puis remontée vers le thêta.",ph:[[2,10,7.83,'violet','p'],[3,7.83,4,'violet','p'],[4,4,2,'violet','p'],[5,2,2,'violet','p'],[3,2,4,'violet','p'],[4,4,4,'violet','p']]},
@@ -264,11 +264,20 @@ const SEANCES=[
  {nom:'HUMEUR',min:20,but:"Séance tonique, plafonnée à 14 Hz.",ph:[[2,10,12,'or','p'],[3,12,12,'or','p'],[3,12,14,'or','p'],[4,14,14,'or','p'],[3,14,12,'or','p'],[3,12,12,'or','p']]},
  {nom:'FIBONACCI',min:25,but:"Paliers 1, 2, 3, 5, 8 et 13 Hz, puis retour.",ph:[1,2,3,5,8,13,8,5,3,2,1].map(f=>[2,f,f,'balayage','p'])}
 ];
-const COUL={rouge:[255,32,0],ambre:[255,118,0],or:[255,176,24],vert:[40,255,70],violet:[150,40,255],blanc:[255,236,210]};
-const NOM_COUL={rouge:'rouge',ambre:'ambre',or:'or',vert:'vert',violet:'violet',balayage:'balayage de teinte',blanc:'blanc'};
+/* Pas de rouge saturé : c'est la couleur la plus provocante pour l'épilepsie photosensible
+   (critère des normes de diffusion : R/(R+G+B) >= 0,8) et celle qui traverse le mieux les paupières.
+   L'ancien « rouge » [255,32,0] (0,89) devient un ambre chaud, et toute couleur affichée,
+   balayage compris, est plafonnée à ROUGE_MAX en ajoutant du vert (glissement vers l'ambre). */
+const ROUGE_MAX=0.7;
+const COUL={chaud:[255,96,16],ambre:[255,118,0],or:[255,176,24],vert:[40,255,70],violet:[150,40,255],blanc:[255,236,210]};
+const NOM_COUL={chaud:'ambre chaud',ambre:'ambre',or:'or',vert:'vert',violet:'violet',balayage:'balayage de teinte',blanc:'blanc'};
 
 function hsv(h){const i=Math.floor(h*6),f=h*6-i,q=1-f;const t=[[1,f,0],[q,1,0],[0,1,f],[0,q,1],[f,0,1],[1,0,q]][i%6];return t.map(v=>v*255);}
-function couleur(c,st){return c==='balayage'?hsv((st/50)%1):COUL[c];}
+function sansRougeSature([r,g,b]){
+  if(r<=ROUGE_MAX*(r+g+b))return [r,g,b];
+  return [r,r/ROUGE_MAX-r-b,b];                // vert ajouté juste assez pour revenir à ROUGE_MAX
+}
+function couleur(c,st){return sansRougeSature(c==='balayage'?hsv((st/50)%1):COUL[c]);}
 
 /* même moteur que le firmware : poids relatifs étirés sur la durée, glissement en cosinus dans chaque phase */
 function phaseInfo(s,st,dur){
