@@ -1,7 +1,24 @@
-<title>HYPNOGEN Web</title>
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#14111d">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="HYPNOGEN">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon-192.png" type="image/png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<title>HYPNOGEN</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
 <style>
+:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+*{box-sizing:border-box}
+body{margin:0;-webkit-text-size-adjust:100%}
+[hidden]{display:none!important}
 /* Mise en page : une colonne d'instrument (séance, profil, réglages, sortie), puis la lumière en plein écran pendant la séance.
    Thème unique sombre, choisi exprès : l'outil s'utilise de nuit, yeux fermés. */
 :root{
@@ -112,6 +129,8 @@ header{display:flex;align-items:baseline;justify-content:space-between;gap:12px;
 @media (max-width:420px){.ligne{grid-template-columns:1fr;gap:6px}}
 @media (prefers-reduced-motion:reduce){#hud{transition:none}}
 </style>
+</head>
+<body>
 
 <div class="app">
   <header>
@@ -174,6 +193,7 @@ header{display:flex;align-items:baseline;justify-content:space-between;gap:12px;
       <li>Calez chaque casque Bluetooth une fois : sa latence est mémorisée.</li>
     </ul>
     <button class="lien" id="b-avert" type="button">Relire l'avertissement de sécurité</button>
+    <p class="note" id="version"></p>
   </section>
 </div>
 
@@ -223,6 +243,7 @@ header{display:flex;align-items:baseline;justify-content:space-between;gap:12px;
 
 <script>
 "use strict";
+var VERSION="1.0.0";
 const $=s=>document.querySelector(s);
 const CARR=200;               // porteuse binaurale (Hz)
 const F_MAX=14;               // plafond de sécurité du projet
@@ -493,4 +514,12 @@ $('#b-avert').onclick=()=>ouvrirAvert(false);
 
 rendre();
 if(!P.accepte)ouvrirAvert(false);
+$('#version').textContent='Version '+VERSION;
+
+/* ---------- installation et hors ligne ---------- */
+if("serviceWorker" in navigator&&(location.protocol==="https:"||location.hostname==="localhost")&&!/claude\.ai|claudeusercontent/.test(location.host)){
+  try{navigator.serviceWorker.register("sw.js").catch(function(){});}catch(e){}
+}
 </script>
+</body>
+</html>
