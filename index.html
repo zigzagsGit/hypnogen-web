@@ -1,0 +1,496 @@
+<title>HYPNOGEN Web</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Mise en page : une colonne d'instrument (séance, profil, réglages, sortie), puis la lumière en plein écran pendant la séance.
+   Thème unique sombre, choisi exprès : l'outil s'utilise de nuit, yeux fermés. */
+:root{
+  --nuit:#14111d; --plaque:#1d1929; --plaque2:#272137; --trait:#372f4b;
+  --texte:#ece5d8; --doux:#a197b4; --pale:#6f6584;
+  --ambre:#f0a63c; --ambre-sombre:#3b2913; --alerte:#e0604a; --alerte-fond:#3a1a17;
+  --f-titre:"Syne","Avenir Next","Segoe UI",system-ui,sans-serif;
+  --f-corps:"Manrope",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-mono:"JetBrains Mono",ui-monospace,"SF Mono",Menlo,monospace;
+  color-scheme:dark;
+}
+html,body{background:var(--nuit);color:var(--texte)}
+body{font-family:var(--f-corps);font-size:15px;line-height:1.5;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:20px 40px}
+.app{max-width:560px;margin:0 auto;display:flex;flex-direction:column;gap:22px}
+h1,h2,h3{margin:0;text-wrap:balance}
+button,input,select{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:2px solid var(--ambre);outline-offset:2px}
+
+header{display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.marque{font-family:var(--f-titre);font-weight:800;font-size:28px;letter-spacing:.06em}
+.marque span{color:var(--ambre)}
+.etiquette{font-family:var(--f-mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--doux)}
+
+.bloc{display:flex;flex-direction:column;gap:10px}
+.titre-bloc{font-family:var(--f-mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--pale)}
+
+/* défilement des séances */
+.rail{display:flex;gap:8px;overflow-x:auto;scroll-snap-type:x proximity;padding-bottom:6px;margin-inline:-4px;padding-inline:4px}
+.rail::-webkit-scrollbar{height:4px}.rail::-webkit-scrollbar-thumb{background:var(--trait);border-radius:2px}
+.carte{flex:0 0 auto;scroll-snap-align:start;background:var(--plaque);border:1px solid var(--trait);border-radius:10px;
+  padding:10px 12px;text-align:left;display:flex;flex-direction:column;gap:2px;min-width:132px}
+.carte b{font-family:var(--f-titre);font-weight:700;font-size:13px;letter-spacing:.04em}
+.carte small{font-family:var(--f-mono);font-size:11px;color:var(--doux);font-variant-numeric:tabular-nums}
+.carte[aria-pressed="true"]{background:var(--ambre-sombre);border-color:var(--ambre)}
+.carte[aria-pressed="true"] b{color:var(--ambre)}
+.carte:disabled{opacity:.45;cursor:default}
+
+.detail{background:var(--plaque);border:1px solid var(--trait);border-radius:14px;padding:16px;display:flex;flex-direction:column;gap:10px}
+.detail h2{font-family:var(--f-titre);font-weight:800;font-size:24px;letter-spacing:.04em}
+.detail p{margin:0;color:var(--doux);max-width:60ch}
+#profil{width:100%;height:170px;display:block}
+.fiche{display:flex;flex-wrap:wrap;gap:6px 14px;font-family:var(--f-mono);font-size:12px;color:var(--doux);font-variant-numeric:tabular-nums}
+.fiche em{font-style:normal;color:var(--texte)}
+
+/* réglages */
+.ligne{display:grid;grid-template-columns:110px 1fr;gap:10px;align-items:center}
+.ligne>label,.ligne>.nom{font-size:13px;color:var(--doux)}
+.puces{display:flex;flex-wrap:wrap;gap:6px}
+.puce{background:var(--plaque);border:1px solid var(--trait);border-radius:999px;padding:5px 11px;font-family:var(--f-mono);font-size:12px;font-variant-numeric:tabular-nums}
+.puce[aria-pressed="true"]{background:var(--ambre);border-color:var(--ambre);color:#1b1206;font-weight:500}
+.curseur{display:flex;align-items:center;gap:10px;min-width:0}
+.curseur input{flex:1;min-width:0;accent-color:var(--ambre)}
+.curseur output{font-family:var(--f-mono);font-size:12px;min-width:62px;text-align:right;font-variant-numeric:tabular-nums}
+
+.sortie{background:var(--plaque);border:1px solid var(--trait);border-radius:14px;padding:14px;display:flex;flex-direction:column;gap:10px}
+.sortie select{background:var(--plaque2);border:1px solid var(--trait);border-radius:8px;padding:8px 10px;width:100%}
+.sortie .rang{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.sortie input[type=text]{flex:1;min-width:0;background:var(--plaque2);border:1px solid var(--trait);border-radius:8px;padding:7px 10px}
+.btn{background:var(--plaque2);border:1px solid var(--trait);border-radius:8px;padding:7px 12px;font-size:13px;font-weight:600}
+.btn:hover{border-color:var(--doux)}
+.note{font-size:12px;color:var(--pale);font-family:var(--f-mono)}
+
+.lancer{background:var(--ambre);color:#1b1206;border:0;border-radius:14px;padding:16px;font-family:var(--f-titre);font-weight:800;
+  font-size:18px;letter-spacing:.08em;text-transform:uppercase}
+.lancer:active{transform:translateY(1px)}
+
+.avant{border-top:1px solid var(--trait);padding-top:16px;display:flex;flex-direction:column;gap:8px}
+.avant h3{font-size:14px;font-weight:700}
+.avant ul{margin:0;padding-left:18px;color:var(--doux);font-size:13px;display:flex;flex-direction:column;gap:4px}
+.lien{background:none;border:0;padding:0;color:var(--ambre);text-decoration:underline;font-size:13px;align-self:flex-start}
+
+/* plein écran lumière */
+#lumiere{position:fixed;inset:0;z-index:50;background:#000;touch-action:manipulation}
+#hud{position:absolute;left:0;right:0;bottom:0;padding:16px max(16px,env(safe-area-inset-right,0px)) calc(18px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px));
+  display:flex;flex-direction:column;gap:10px;background:rgba(10,8,14,.88);transition:opacity .6s}
+#hud.cache{opacity:0;pointer-events:none}
+.hud-haut{display:flex;justify-content:space-between;align-items:baseline;gap:10px;flex-wrap:wrap}
+.hud-haut b{font-family:var(--f-titre);font-size:16px;letter-spacing:.05em;color:var(--doux)}
+.hud-val{font-family:var(--f-mono);font-size:13px;color:var(--doux);font-variant-numeric:tabular-nums;display:flex;gap:14px;flex-wrap:wrap}
+.hud-bas{display:flex;gap:8px;flex-wrap:wrap}
+.hud-bas .btn{color:var(--doux)}
+.aide{position:absolute;top:calc(12px + env(safe-area-inset-top,0px));left:0;right:0;text-align:center;font-size:12px;color:#4a4258;font-family:var(--f-mono)}
+
+/* calage */
+#calage{position:fixed;left:0;right:0;bottom:0;z-index:60;background:var(--plaque);border-top:1px solid var(--trait);border-radius:16px 16px 0 0;
+  padding:18px max(16px,env(safe-area-inset-right,0px)) calc(20px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px));display:flex;flex-direction:column;gap:12px}
+#calage h3{font-family:var(--f-titre);font-size:17px;letter-spacing:.03em}
+#calage p{margin:0;color:var(--doux);font-size:13px}
+.cal-val{font-family:var(--f-mono);font-size:34px;font-weight:500;text-align:center;font-variant-numeric:tabular-nums}
+.cal-rang{display:flex;gap:8px;align-items:center}
+.cal-rang input{flex:1;min-width:0;accent-color:var(--ambre)}
+.cal-fin{display:flex;gap:8px;justify-content:flex-end}
+.cal-fin .ok{background:var(--ambre);color:#1b1206;border-color:var(--ambre)}
+
+/* avertissement */
+#avert{position:fixed;inset:0;z-index:90;background:rgba(10,8,14,.94);overflow-y:auto;
+  padding:calc(24px + env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) calc(24px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px))}
+.avert-boite{max-width:520px;margin:0 auto;background:var(--alerte-fond);border:1px solid var(--alerte);border-radius:14px;padding:20px;display:flex;flex-direction:column;gap:12px}
+.avert-boite h2{font-family:var(--f-titre);font-size:20px;color:var(--alerte);letter-spacing:.03em}
+.avert-boite p,.avert-boite li{font-size:14px;margin:0}
+.avert-boite ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:5px}
+.avert-boite label{display:flex;gap:10px;align-items:flex-start;font-size:14px;font-weight:600}
+.avert-boite input{margin-top:3px;accent-color:var(--alerte);width:18px;height:18px;flex:0 0 auto}
+.avert-boite .lancer{background:var(--alerte);color:#1a0806;font-size:15px;padding:12px}
+.avert-boite .lancer:disabled{opacity:.4;cursor:not-allowed}
+@media (max-width:420px){.ligne{grid-template-columns:1fr;gap:6px}}
+@media (prefers-reduced-motion:reduce){#hud{transition:none}}
+</style>
+
+<div class="app">
+  <header>
+    <div class="marque">HYPNO<span>GEN</span></div>
+    <div class="etiquette">web · v1 · binaural 200 Hz</div>
+  </header>
+
+  <section class="bloc" aria-labelledby="t-seances">
+    <h2 class="titre-bloc" id="t-seances">Séance</h2>
+    <div class="rail" id="rail" role="group" aria-label="Choix de la séance"></div>
+  </section>
+
+  <section class="detail" aria-live="polite">
+    <h2 id="d-nom">RELAXATION</h2>
+    <p id="d-but"></p>
+    <canvas id="profil" aria-label="Profil de fréquence de la séance"></canvas>
+    <div class="fiche" id="d-fiche"></div>
+  </section>
+
+  <section class="bloc">
+    <h2 class="titre-bloc">Réglages</h2>
+    <div class="ligne"><span class="nom">Durée</span><div class="puces" id="durees" role="group" aria-label="Durée"></div></div>
+    <div class="ligne"><span class="nom">Fréquence</span>
+      <div class="puces" role="group" aria-label="Mode">
+        <button class="puce" id="m-profil" type="button">PROFIL</button>
+        <button class="puce" id="m-manuel" type="button">MANUEL</button>
+      </div></div>
+    <div class="ligne" id="l-manuel" hidden><label for="manuelF">Fixe</label>
+      <div class="curseur"><input id="manuelF" type="range" min="0.5" max="14" step="0.01"><output id="o-manuelF"></output></div></div>
+    <div class="ligne"><label for="vol">Volume</label>
+      <div class="curseur"><input id="vol" type="range" min="0" max="1" step="0.01"><output id="o-vol"></output></div></div>
+    <div class="ligne"><label for="lum">Lumière</label>
+      <div class="curseur"><input id="lum" type="range" min="0.1" max="1" step="0.01"><output id="o-lum"></output></div></div>
+  </section>
+
+  <section class="sortie" aria-labelledby="t-sortie">
+    <h2 class="titre-bloc" id="t-sortie">Sortie audio et calage</h2>
+    <select id="sortie" aria-label="Sortie audio utilisée"></select>
+    <div class="rang">
+      <span class="note" id="s-ms"></span>
+      <button class="btn" id="b-caler" type="button">Caler cette sortie</button>
+    </div>
+    <div class="rang">
+      <input type="text" id="s-nom" placeholder="Nom d'un autre casque" maxlength="30">
+      <button class="btn" id="b-ajout" type="button">Ajouter</button>
+    </div>
+    <span class="note" id="s-nav">Latence annoncée par le navigateur : connue après le premier lancement</span>
+  </section>
+
+  <button class="lancer" id="b-lancer" type="button">Lancer la séance</button>
+
+  <section class="avant">
+    <h3>Avant de commencer</h3>
+    <ul>
+      <li>Casque stéréo obligatoire : le battement binaural n'existe pas sur un haut-parleur.</li>
+      <li>Luminosité de l'écran au maximum, luminosité automatique coupée.</li>
+      <li>Désactivez True Tone et Night Shift (iPhone) ou le Confort des yeux (Samsung) : ils faussent les couleurs.</li>
+      <li>Sur iPhone, si le son ne sort pas, vérifiez le bouton silencieux.</li>
+      <li>Yeux fermés, téléphone à 10–15 cm du visage, ou dans un support de type masque.</li>
+      <li>Calez chaque casque Bluetooth une fois : sa latence est mémorisée.</li>
+    </ul>
+    <button class="lien" id="b-avert" type="button">Relire l'avertissement de sécurité</button>
+  </section>
+</div>
+
+<div id="lumiere" hidden>
+  <div class="aide" id="aide">Touchez l'écran pour afficher les commandes</div>
+  <div id="hud">
+    <div class="hud-haut"><b id="h-nom"></b><span class="hud-val"><span id="h-phase"></span><span id="h-f"></span><span id="h-reste"></span></span></div>
+    <div class="hud-bas">
+      <button class="btn" id="h-moins" type="button" hidden>− 0,5 Hz</button>
+      <button class="btn" id="h-plus" type="button" hidden>+ 0,5 Hz</button>
+      <button class="btn" id="h-stop" type="button">Arrêter</button>
+    </div>
+  </div>
+</div>
+
+<div id="calage" hidden>
+  <h3 id="c-titre">Calage</h3>
+  <p>Un clic retentit à chaque début de flash, deux fois par seconde. Réglez le retard jusqu'à ce que flash et clic tombent ensemble. Augmentez si le flash arrive avant le clic.</p>
+  <div class="cal-val" id="c-val">0 ms</div>
+  <div class="cal-rang">
+    <button class="btn" id="c-moins" type="button">−5</button>
+    <input type="range" id="c-ms" min="-50" max="500" step="5" aria-label="Retard de la lumière en millisecondes">
+    <button class="btn" id="c-plus" type="button">+5</button>
+  </div>
+  <div class="cal-fin">
+    <button class="btn" id="c-annuler" type="button">Annuler</button>
+    <button class="btn ok" id="c-ok" type="button">Enregistrer</button>
+  </div>
+</div>
+
+<div id="avert" hidden>
+  <div class="avert-boite" role="dialog" aria-labelledby="a-titre">
+    <h2 id="a-titre">Avertissement de sécurité</h2>
+    <p>HYPNOGEN produit une lumière clignotante rythmée. Chez certaines personnes, ce type de stimulation peut déclencher une crise d'épilepsie, même sans antécédent connu.</p>
+    <ul>
+      <li>N'utilisez pas l'application en cas d'épilepsie, d'antécédent de convulsions ou de photosensibilité, personnelle ou familiale.</li>
+      <li>Évitez-la en cas de migraines, de trouble psychiatrique, de grossesse, ou avec un stimulateur cardiaque, sans avis médical.</li>
+      <li>Jamais en conduisant ni en utilisant une machine.</li>
+      <li>Arrêtez immédiatement en cas de malaise, vertige, nausée, vision troublée ou mouvement involontaire.</li>
+      <li>Gardez un volume modéré au casque.</li>
+    </ul>
+    <p>Toutes les séances restent sous 14 Hz, hors de la plage 15–25 Hz la plus sensible. Ce n'est pas un dispositif médical.</p>
+    <label><input type="checkbox" id="a-ok"> J'ai lu cet avertissement et aucune de ces contre-indications ne me concerne.</label>
+    <button class="lancer" id="a-continuer" type="button" disabled>Continuer</button>
+  </div>
+</div>
+
+<script>
+"use strict";
+const $=s=>document.querySelector(s);
+const CARR=200;               // porteuse binaurale (Hz)
+const F_MAX=14;               // plafond de sécurité du projet
+const DUREES=[10,15,20,25,30,45,60];
+
+/* ---------- catalogue : [poids, f0, f1, couleur, onde] — onde 's' sinus, 'p' impulsion ---------- */
+const SEANCES=[
+ {nom:'RELAXATION',min:20,but:"Détente progressive, de l'éveil calme vers un état posé.",ph:[[2,12,10,'rouge','s'],[3,10,8,'rouge','s'],[3,8,5,'rouge','s'],[3,5,4,'rouge','s'],[3,4,4,'rouge','s']]},
+ {nom:'IMAGINATION',min:25,but:"Rêverie éveillée et images mentales, avec des flashs nets.",ph:[[3,12,9,'balayage','p'],[4,9,7,'balayage','p'],[4,7,6,'balayage','p'],[5,6,6,'balayage','p']]},
+ {nom:'HYPNAGOGIE',min:30,but:"Long palier à 7,83 Hz pour rester au seuil du sommeil.",ph:[[3,10,7.83,'ambre','s'],[10,7.83,7.83,'ambre','s'],[4,7.83,6.3,'ambre','s'],[5,6.3,6.3,'ambre','s']]},
+ {nom:'ENDORMISSEMENT',min:20,but:"Descente continue jusqu'au delta pour s'endormir.",ph:[[2,10,6,'rouge','s'],[3,6,3,'rouge','s'],[3,3,1,'rouge','s'],[3,1,0.5,'rouge','s'],[3,0.5,0.5,'rouge','s']]},
+ {nom:'RÊVE',min:25,but:"Glissement lent vers le sommeil profond.",ph:[[2,8,4,'rouge','s'],[3,4,2,'rouge','s'],[3,2,1,'rouge','s'],[3,1,0.5,'rouge','s'],[4,0.5,0.5,'rouge','s']]},
+ {nom:'ANCRAGE',min:15,but:"Courte séance de recentrage qui finit très bas.",ph:[[2,10,7.83,'ambre','s'],[4,7.83,7.83,'ambre','s'],[3,7.83,1.12,'ambre','s'],[4,1.12,1.12,'ambre','s']]},
+ {nom:'MÉDITATION',min:30,but:"Méditation longue, descente lente vers 1 Hz.",ph:[[2,10,7.83,'violet','s'],[3,7.83,7.83,'violet','s'],[3,7.83,2.5,'violet','s'],[3,2.5,1.45,'violet','s'],[4,1.45,1.05,'violet','s'],[4,1.05,1.05,'violet','s']]},
+ {nom:'TRANSE',min:30,but:"Plongée profonde puis remontée vers le thêta.",ph:[[2,10,7.83,'violet','p'],[3,7.83,4,'violet','p'],[4,4,2,'violet','p'],[5,2,2,'violet','p'],[3,2,4,'violet','p'],[4,4,4,'violet','p']]},
+ {nom:'MÉMOIRE',min:20,but:"Alternance alpha et thêta, retour à un alpha vif.",ph:[[2,12,10.2,'vert','s'],[4,10.2,10.2,'vert','s'],[3,10.2,7.8,'vert','s'],[4,7.8,7.8,'vert','s'],[3,7.8,10.2,'vert','s'],[3,10.2,10.2,'vert','s']]},
+ {nom:'HUMEUR',min:20,but:"Séance tonique, plafonnée à 14 Hz.",ph:[[2,10,12,'or','p'],[3,12,12,'or','p'],[3,12,14,'or','p'],[4,14,14,'or','p'],[3,14,12,'or','p'],[3,12,12,'or','p']]},
+ {nom:'FIBONACCI',min:25,but:"Paliers 1, 2, 3, 5, 8 et 13 Hz, puis retour.",ph:[1,2,3,5,8,13,8,5,3,2,1].map(f=>[2,f,f,'balayage','p'])}
+];
+const COUL={rouge:[255,32,0],ambre:[255,118,0],or:[255,176,24],vert:[40,255,70],violet:[150,40,255],blanc:[255,236,210]};
+const NOM_COUL={rouge:'rouge',ambre:'ambre',or:'or',vert:'vert',violet:'violet',balayage:'balayage de teinte',blanc:'blanc'};
+
+function hsv(h){const i=Math.floor(h*6),f=h*6-i,q=1-f;const t=[[1,f,0],[q,1,0],[0,1,f],[0,q,1],[f,0,1],[1,0,q]][i%6];return t.map(v=>v*255);}
+function couleur(c,st){return c==='balayage'?hsv((st/50)%1):COUL[c];}
+
+/* même moteur que le firmware : poids relatifs étirés sur la durée, glissement en cosinus dans chaque phase */
+function phaseInfo(s,st,dur){
+  const W=s.ph.reduce((a,p)=>a+p[0],0);
+  let u=Math.max(0,Math.min(st,dur))/dur*W,acc=0;
+  for(let i=0;i<s.ph.length;i++){
+    const [w,f0,f1,col,wave]=s.ph[i];
+    if(u<=acc+w||i===s.ph.length-1){
+      const x=Math.max(0,Math.min(1,(u-acc)/w));
+      return {f:f0+(f1-f0)*(1-Math.cos(Math.PI*x))/2,i,n:s.ph.length,col,wave};
+    }
+    acc+=w;
+  }
+}
+function plage(s){let lo=99,hi=0;s.ph.forEach(p=>{lo=Math.min(lo,p[1],p[2]);hi=Math.max(hi,p[1],p[2]);});return [lo,hi];}
+const fmtHz=f=>(f<10?f.toFixed(2):f.toFixed(1)).replace('.',',');
+
+/* ---------- préférences (mémorisées dans ce navigateur) ---------- */
+const DEF={seance:0,duree:20,mode:'profil',manuelF:7.83,vol:0.55,lum:1,sorties:[{nom:'Filaire / haut-parleur',ms:0},{nom:'Casque Bluetooth',ms:180}],sortie:0,accepte:false};
+let P=Object.assign({},DEF);
+try{const s=JSON.parse(localStorage.getItem('hypnogen.v1')||'null');if(s)P=Object.assign({},DEF,s);}catch(e){}
+function sauver(){try{localStorage.setItem('hypnogen.v1',JSON.stringify(P));}catch(e){}}
+
+/* ---------- interface ---------- */
+const rail=$('#rail');
+SEANCES.forEach((s,i)=>{
+  const [lo,hi]=plage(s);const b=document.createElement('button');
+  b.className='carte';b.type='button';b.id='s'+i;
+  b.innerHTML=`<b>${s.nom}</b><small>${s.min} min · ${fmtHz(lo)}–${fmtHz(hi)} Hz</small>`;
+  b.onclick=()=>{P.seance=i;P.duree=s.min;sauver();rendre();};
+  rail.appendChild(b);
+});
+const dz=$('#durees');
+DUREES.forEach(d=>{const b=document.createElement('button');b.className='puce';b.type='button';b.textContent=d+' min';b.dataset.d=d;
+  b.onclick=()=>{P.duree=d;sauver();rendre();};dz.appendChild(b);});
+$('#m-profil').onclick=()=>{P.mode='profil';sauver();rendre();};
+$('#m-manuel').onclick=()=>{P.mode='manuel';sauver();rendre();};
+['manuelF','vol','lum'].forEach(k=>{const el=$('#'+k);el.value=P[k];el.oninput=()=>{P[k]=+el.value;sauver();majValeurs();if(k==='manuelF')dessiner();};});
+function majValeurs(){
+  $('#o-manuelF').textContent=fmtHz(P.manuelF)+' Hz';
+  $('#o-vol').textContent=Math.round(P.vol*100)+' %';
+  $('#o-lum').textContent=Math.round(P.lum*100)+' %';
+}
+function majSorties(){
+  const sel=$('#sortie');sel.innerHTML='';
+  P.sorties.forEach((o,i)=>{const op=document.createElement('option');op.value=i;op.textContent=o.nom;sel.appendChild(op);});
+  sel.value=P.sortie;$('#s-ms').textContent='Retard de la lumière : '+P.sorties[P.sortie].ms+' ms';
+}
+$('#sortie').onchange=e=>{P.sortie=+e.target.value;sauver();majSorties();};
+$('#b-ajout').onclick=()=>{const n=$('#s-nom').value.trim();if(!n)return;P.sorties.push({nom:n,ms:180});P.sortie=P.sorties.length-1;$('#s-nom').value='';sauver();majSorties();};
+
+function rendre(){
+  const s=SEANCES[P.seance];
+  SEANCES.forEach((_,i)=>$('#s'+i).setAttribute('aria-pressed',i===P.seance));
+  dz.querySelectorAll('.puce').forEach(b=>b.setAttribute('aria-pressed',+b.dataset.d===P.duree));
+  $('#m-profil').setAttribute('aria-pressed',P.mode==='profil');$('#m-manuel').setAttribute('aria-pressed',P.mode==='manuel');
+  $('#l-manuel').hidden=P.mode!=='manuel';
+  $('#d-nom').textContent=s.nom;$('#d-but').textContent=s.but;
+  const ondes=[...new Set(s.ph.map(p=>p[4]==='s'?'sinus':'impulsion'))].join(' / ');
+  const cols=[...new Set(s.ph.map(p=>NOM_COUL[p[3]]))].join(' / ');
+  $('#d-fiche').innerHTML=`<span>phases <em>${s.ph.length}</em></span><span>onde <em>${ondes}</em></span><span>couleur <em>${cols}</em></span><span>conseillée <em>${s.min} min</em></span>`;
+  majValeurs();majSorties();dessiner();
+}
+
+/* ---------- tracé du profil ---------- */
+function dessiner(){
+  const cv=$('#profil'),css=getComputedStyle(document.documentElement),tok=n=>css.getPropertyValue(n).trim();
+  const dpr=window.devicePixelRatio||1,w=cv.clientWidth,h=cv.clientHeight;if(!w)return;
+  cv.width=w*dpr;cv.height=h*dpr;const g=cv.getContext('2d');g.setTransform(dpr,0,0,dpr,0,0);g.clearRect(0,0,w,h);
+  const L=34,R=8,T=8,B=22,pw=w-L-R,ph=h-T-B,YM=20,dur=P.duree*60,s=SEANCES[P.seance];
+  const X=t=>L+t/dur*pw,Y=f=>T+ph-f/YM*ph;
+  g.font='11px "JetBrains Mono", ui-monospace, monospace';
+  // bande exclue
+  g.fillStyle=tok('--alerte-fond');g.fillRect(L,Y(YM),pw,Y(15)-Y(YM));
+  g.fillStyle=tok('--alerte');g.textAlign='right';g.textBaseline='top';g.fillText('15–25 Hz exclus',L+pw-4,Y(YM)+3);
+  // grille
+  g.strokeStyle=tok('--trait');g.lineWidth=1;g.fillStyle=tok('--pale');g.textAlign='right';g.textBaseline='middle';
+  [0,4,8,12,16,20].forEach(f=>{g.beginPath();g.moveTo(L,Y(f)+.5);g.lineTo(L+pw,Y(f)+.5);g.stroke();g.fillText(f,L-6,Y(f));});
+  g.textAlign='center';g.textBaseline='top';const pas=P.duree>30?10:5;
+  for(let m=0;m<=P.duree;m+=pas)g.fillText(m+' min',Math.min(Math.max(X(m*60),L+18),L+pw-18),T+ph+6);
+  // limites de phases
+  const W=s.ph.reduce((a,p)=>a+p[0],0);let acc=0;g.setLineDash([2,4]);
+  s.ph.slice(0,-1).forEach(p=>{acc+=p[0];const x=L+acc/W*pw;g.beginPath();g.moveTo(x+.5,T);g.lineTo(x+.5,T+ph);g.stroke();});g.setLineDash([]);
+  // courbe
+  const manuel=P.mode==='manuel',pts=[];
+  for(let i=0;i<=240;i++){const t=i/240*dur;pts.push([X(t),Y(manuel?P.manuelF:phaseInfo(s,t,dur).f)]);}
+  g.beginPath();pts.forEach(([x,y],i)=>i?g.lineTo(x,y):g.moveTo(x,y));g.lineTo(L+pw,Y(0));g.lineTo(L,Y(0));g.closePath();
+  g.fillStyle=tok('--ambre-sombre');g.fill();
+  g.beginPath();pts.forEach(([x,y],i)=>i?g.lineTo(x,y):g.moveTo(x,y));g.strokeStyle=tok('--ambre');g.lineWidth=2;g.stroke();
+}
+window.addEventListener('resize',dessiner);
+
+/* ---------- audio ---------- */
+let ctx=null,clicBuf=null;
+function preparerAudio(){
+  try{if(navigator.audioSession)navigator.audioSession.type='playback';}catch(e){}
+  if(!ctx){
+    const C=window.AudioContext||window.webkitAudioContext;ctx=new C();
+    const n=Math.round(ctx.sampleRate*0.018);clicBuf=ctx.createBuffer(1,n,ctx.sampleRate);
+    const d=clicBuf.getChannelData(0);for(let i=0;i<n;i++)d[i]=Math.sin(2*Math.PI*1800*i/ctx.sampleRate)*Math.exp(-i/(n/5));
+  }
+  ctx.resume();
+}
+function latenceNav(){return Math.round(((ctx.outputLatency||0)+(ctx.baseLatency||0))*1000);}
+/* temps audio en cours de restitution : horloge de la carte son, corrigée de la latence que le navigateur connaît */
+function tAudible(){
+  const ts=ctx.getOutputTimestamp&&ctx.getOutputTimestamp();
+  if(ts&&ts.contextTime>0&&ts.performanceTime>0)return ts.contextTime+(performance.now()-ts.performanceTime)/1000;
+  return ctx.currentTime-(ctx.outputLatency||0)-(ctx.baseLatency||0);
+}
+
+let R=null;               // séance en cours
+const PAS=0.05,AVANCE=0.3,LISSAGE=0.15;
+function cible(st){
+  if(R.calage)return 2;
+  if(R.mode==='manuel')return P.manuelF;
+  return phaseInfo(R.seance,st,R.dur).f;
+}
+function niveau(st){
+  if(R.calage)return Math.min(1,st/0.3)*0.12*P.vol;
+  const env=Math.max(0,Math.min(1,st/20,(R.dur-st)/15));
+  return env*P.vol*P.vol*0.5;
+}
+function demarrer(calage){
+  preparerAudio();
+  const t0=ctx.currentTime+0.25,oL=ctx.createOscillator(),oR=ctx.createOscillator(),m=ctx.createChannelMerger(2),g=ctx.createGain();
+  oL.connect(m,0,0);oR.connect(m,0,1);m.connect(g);g.connect(ctx.destination);
+  R={calage,t0,seance:SEANCES[P.seance],mode:P.mode,dur:calage?1e9:P.duree*60,oL,oR,g,clicN:0,calMs:P.sorties[P.sortie].ms};
+  const f0=Math.min(F_MAX,cible(0));
+  oL.frequency.setValueAtTime(CARR-f0/2,t0);oR.frequency.setValueAtTime(CARR+f0/2,t0);g.gain.setValueAtTime(0,t0);
+  oL.start(t0);oR.start(t0);            // départ simultané : écart de phase nul à t0
+  R.noeuds=[{t:t0,f:f0,ph:0}];
+  R.timer=setInterval(planifier,25);planifier();
+  garderEcran();
+  $('#lumiere').hidden=false;
+  if(!calage){try{const e=document.documentElement;e.requestFullscreen&&e.requestFullscreen().catch(()=>{});}catch(e){}}
+  requestAnimationFrame(image);
+  $('#s-nav').textContent='Latence annoncée par le navigateur : '+latenceNav()+' ms';
+}
+/* une seule phase de battement, intégrée ici et nulle part ailleurs : l'audio et la lumière lisent les mêmes nœuds */
+function planifier(){
+  if(!R)return;
+  const horizon=ctx.currentTime+AVANCE;let k=R.noeuds[R.noeuds.length-1];
+  while(k.t<horizon){
+    const t=k.t+PAS,st=t-R.t0;
+    const c=Math.min(F_MAX,Math.max(0.5,cible(st)));
+    const f=k.f+(c-k.f)*(1-Math.exp(-PAS/LISSAGE));
+    const ph=k.ph+(k.f+f)/2*PAS;
+    R.oL.frequency.linearRampToValueAtTime(CARR-f/2,t);R.oR.frequency.linearRampToValueAtTime(CARR+f/2,t);
+    R.g.gain.linearRampToValueAtTime(niveau(st),t);
+    if(R.calage){while(R.t0+R.clicN/2<t){const tc=R.t0+R.clicN/2;if(tc>=k.t)clic(tc);R.clicN++;}}
+    k={t,f,ph};R.noeuds.push(k);
+  }
+  const lim=ctx.currentTime-3;while(R.noeuds.length>2&&R.noeuds[1].t<lim)R.noeuds.shift();
+  if(!R.calage&&ctx.currentTime>R.t0+R.dur+0.2)arreter();
+}
+function clic(t){const s=ctx.createBufferSource(),g=ctx.createGain();g.gain.value=0.25+0.5*P.vol;s.buffer=clicBuf;s.connect(g);g.connect(ctx.destination);s.start(t);}
+/* phase (en cycles) au temps t : intégrale exacte de la rampe linéaire entre deux nœuds */
+function phaseA(t){
+  const K=R.noeuds;let i=K.length-2;
+  while(i>0&&K[i].t>t)i--;
+  const a=K[i],b=K[i+1]||a,D=b.t-a.t||PAS,dt=t-a.t;
+  if(dt>D)return b.ph+b.f*(t-b.t);
+  return a.ph+a.f*dt+(b.f-a.f)*dt*dt/(2*D);
+}
+function impulsion(x){const e=0.03,d=0.45;return x<e?x/e:x<d?1:x<d+e?1-(x-d)/e:0;}
+let dernierHud=0;
+function image(){
+  if(!R)return;
+  const ms=R.calage?R.calMs:P.sorties[P.sortie].ms;
+  const t=tAudible()+1/60-ms/1000;
+  let rgb=[0,0,0];
+  if(t>=R.t0){
+    const st=t-R.t0,x=phaseA(t)%1;
+    let col='blanc',onde='p',env=1;
+    if(!R.calage){const I=phaseInfo(R.seance,Math.min(st,R.dur),R.dur);col=I.col;onde=I.wave;env=Math.max(0,Math.min(1,st/8,(R.dur-st)/10));}
+    const b=onde==='s'?(1+Math.cos(2*Math.PI*x))/2:impulsion(x);
+    const v=Math.pow(b*env*P.lum,1/2.2);       // sinus en luminance, pas en valeur de pixel
+    rgb=couleur(col,st).map(c=>Math.round(c*v));
+  }
+  $('#lumiere').style.backgroundColor=`rgb(${rgb[0]},${rgb[1]},${rgb[2]})`;
+  const now=performance.now();
+  if(now-dernierHud>250&&!R.calage){dernierHud=now;majHud(Math.max(0,t-R.t0));}
+  requestAnimationFrame(image);
+}
+function majHud(st){
+  const I=phaseInfo(R.seance,Math.min(st,R.dur),R.dur),k=R.noeuds[R.noeuds.length-1];
+  $('#h-nom').textContent=R.seance.nom+(R.mode==='manuel'?' · MANUEL':'');
+  $('#h-phase').textContent=R.mode==='manuel'?'':'phase '+(I.i+1)+'/'+I.n;
+  $('#h-f').textContent=fmtHz(k.f)+' Hz';
+  const r=Math.max(0,Math.round(R.dur-st));$('#h-reste').textContent=Math.floor(r/60)+':'+String(r%60).padStart(2,'0');
+}
+function arreter(){
+  if(!R)return;const t=ctx.currentTime;clearInterval(R.timer);
+  R.g.gain.cancelScheduledValues(t);R.g.gain.setValueAtTime(R.g.gain.value,t);R.g.gain.linearRampToValueAtTime(0,t+0.15);
+  R.oL.stop(t+0.2);R.oR.stop(t+0.2);R=null;
+  $('#lumiere').hidden=true;$('#calage').hidden=true;$('#lumiere').style.backgroundColor='#000';
+  lacherEcran();
+  try{document.fullscreenElement&&document.exitFullscreen().catch(()=>{});}catch(e){}
+}
+
+/* ---------- veille de l'écran ---------- */
+let verrou=null;
+async function garderEcran(){try{if(navigator.wakeLock)verrou=await navigator.wakeLock.request('screen');}catch(e){verrou=null;}}
+function lacherEcran(){try{verrou&&verrou.release();}catch(e){}verrou=null;}
+document.addEventListener('visibilitychange',()=>{if(R&&document.visibilityState==='visible')garderEcran();});
+
+/* ---------- commandes pendant la séance ---------- */
+let minuteur=null;
+function montrerHud(){
+  if(!R||R.calage)return;$('#hud').classList.remove('cache');$('#aide').hidden=true;
+  const man=R.mode==='manuel';$('#h-moins').hidden=!man;$('#h-plus').hidden=!man;
+  clearTimeout(minuteur);minuteur=setTimeout(()=>$('#hud').classList.add('cache'),4000);
+}
+$('#lumiere').addEventListener('click',e=>{if(e.target.closest('button'))return;montrerHud();});
+$('#h-stop').onclick=arreter;
+$('#h-moins').onclick=()=>{P.manuelF=Math.max(0.5,+(P.manuelF-0.5).toFixed(2));sauver();montrerHud();};
+$('#h-plus').onclick=()=>{P.manuelF=Math.min(F_MAX,+(P.manuelF+0.5).toFixed(2));sauver();montrerHud();};
+
+$('#b-lancer').onclick=()=>{
+  if(!P.accepte){ouvrirAvert(true);return;}
+  demarrer(false);$('#aide').hidden=false;montrerHud();
+};
+
+/* ---------- calage ---------- */
+function majCal(){$('#c-val').textContent=R.calMs+' ms';$('#c-ms').value=R.calMs;}
+$('#b-caler').onclick=()=>{
+  if(!P.accepte){ouvrirAvert(false);return;}
+  demarrer(true);$('#hud').classList.add('cache');$('#aide').hidden=true;
+  $('#c-titre').textContent='Calage : '+P.sorties[P.sortie].nom;$('#calage').hidden=false;majCal();
+};
+$('#c-ms').oninput=e=>{R.calMs=+e.target.value;majCal();};
+$('#c-moins').onclick=()=>{R.calMs=Math.max(-50,R.calMs-5);majCal();};
+$('#c-plus').onclick=()=>{R.calMs=Math.min(500,R.calMs+5);majCal();};
+$('#c-annuler').onclick=arreter;
+$('#c-ok').onclick=()=>{P.sorties[P.sortie].ms=R.calMs;sauver();arreter();majSorties();};
+
+/* ---------- avertissement ---------- */
+let lancerApres=false;
+function ouvrirAvert(lancer){lancerApres=lancer;$('#a-ok').checked=P.accepte;$('#a-continuer').disabled=!P.accepte;$('#avert').hidden=false;}
+$('#a-ok').onchange=e=>{$('#a-continuer').disabled=!e.target.checked;};
+$('#a-continuer').onclick=()=>{P.accepte=true;sauver();$('#avert').hidden=true;if(lancerApres){demarrer(false);$('#aide').hidden=false;montrerHud();}};
+$('#b-avert').onclick=()=>ouvrirAvert(false);
+
+rendre();
+if(!P.accepte)ouvrirAvert(false);
+</script>
