@@ -1,6 +1,6 @@
 /* Service worker de HYPNOGEN : rend l'application installable et utilisable hors ligne.
    A chaque nouvelle version de l'application, augmenter VERSION pour que les telephones la recuperent. */
-var VERSION = "1.2.0";
+var VERSION = "1.3.0";
 var CACHE = "hypnogen-" + VERSION;
 var POLICES = "hypnogen-polices";
 var COQUILLE = [

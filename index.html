@@ -104,11 +104,30 @@ header{display:flex;align-items:baseline;justify-content:space-between;gap:12px;
 .hud-bas .btn{color:var(--doux)}
 .aide{position:absolute;top:calc(12px + env(safe-area-inset-top,0px));left:0;right:0;text-align:center;font-size:12px;color:#4a4258;font-family:var(--f-mono)}
 
-/* calage */
-#calage{position:fixed;left:0;right:0;bottom:0;z-index:60;background:var(--plaque);border-top:1px solid var(--trait);border-radius:16px 16px 0 0;
-  padding:18px max(16px,env(safe-area-inset-right,0px)) calc(20px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px));display:flex;flex-direction:column;gap:12px}
-#calage h3{font-family:var(--f-titre);font-size:17px;letter-spacing:.03em}
-#calage p{margin:0;color:var(--doux);font-size:13px}
+/* feuilles du bas : calage, avis après séance */
+.feuille{position:fixed;left:0;right:0;bottom:0;z-index:60;background:var(--plaque);border-top:1px solid var(--trait);border-radius:16px 16px 0 0;
+  padding:18px max(16px,env(safe-area-inset-right,0px)) calc(20px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px));display:flex;flex-direction:column;gap:12px;
+  max-width:560px;margin:0 auto}
+.feuille h3{font-family:var(--f-titre);font-size:17px;letter-spacing:.03em}
+.feuille p{margin:0;color:var(--doux);font-size:13px}
+#avis{z-index:70}
+.hud-mesure{font-size:14px;color:var(--texte)}
+
+/* journal */
+.journal{background:var(--plaque);border:1px solid var(--trait);border-radius:14px;padding:14px;display:flex;flex-direction:column;gap:10px}
+.journal ol{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
+.journal li{display:grid;grid-template-columns:1fr auto;gap:2px 10px;font-size:13px;border-top:1px solid var(--trait);padding-top:6px}
+.journal li small{grid-column:1/-1;font-family:var(--f-mono);font-size:11px;color:var(--doux)}
+.journal .score{font-family:var(--f-mono);font-size:12px;font-variant-numeric:tabular-nums;color:var(--ambre)}
+.journal .vide{color:var(--pale);font-size:13px}
+.journal .rang{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+
+/* questionnaire */
+.question{border:0;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
+.question legend{font-size:14px;padding:0;margin-bottom:6px}
+.question .puces label{display:inline-flex;align-items:center;gap:6px;font-weight:500;font-size:13px}
+.question input{width:16px;height:16px;margin:0}
+.refus{background:#1a0806;border:1px solid var(--alerte);border-radius:8px;padding:10px 12px;font-weight:600}
 .cal-val{font-family:var(--f-mono);font-size:34px;font-weight:500;text-align:center;font-variant-numeric:tabular-nums}
 .cal-rang{display:flex;gap:8px;align-items:center}
 .cal-rang input{flex:1;min-width:0;accent-color:var(--ambre)}
@@ -135,7 +154,7 @@ header{display:flex;align-items:baseline;justify-content:space-between;gap:12px;
 <div class="app">
   <header>
     <div class="marque">HYPNO<span>GEN</span></div>
-    <div class="etiquette">web · v1 · binaural 200 Hz</div>
+    <div class="etiquette" id="etiquette">web</div>
   </header>
 
   <section class="bloc" aria-labelledby="t-seances">
@@ -164,6 +183,22 @@ header{display:flex;align-items:baseline;justify-content:space-between;gap:12px;
       <div class="curseur"><input id="vol" type="range" min="0" max="1" step="0.01"><output id="o-vol"></output></div></div>
     <div class="ligne"><label for="lum">Lumière</label>
       <div class="curseur"><input id="lum" type="range" min="0.1" max="1" step="0.01"><output id="o-lum"></output></div></div>
+    <div class="ligne"><label for="prof">Profondeur</label>
+      <div class="curseur"><input id="prof" type="range" min="0.3" max="1" step="0.01" aria-describedby="n-prof"><output id="o-prof"></output></div></div>
+    <p class="note" id="n-prof">Écart entre flash et creux. Moins de profondeur = clignotement plus doux, jamais le noir complet.</p>
+    <div class="ligne"><span class="nom">Son</span>
+      <div class="puces" role="group" aria-label="Type de son">
+        <button class="puce" id="son-binaural" type="button">BINAURAL</button>
+        <button class="puce" id="son-iso" type="button">ISOCHRONE</button>
+      </div></div>
+    <div class="ligne"><span class="nom">Porteuse</span><div class="puces" id="porteuses" role="group" aria-label="Fréquence porteuse"></div></div>
+    <p class="note" id="n-son"></p>
+    <div class="ligne"><span class="nom">Fréquence perso</span>
+      <div class="puces">
+        <span class="note" id="o-perso"></span>
+        <button class="puce" id="b-mesure" type="button">Mesurer</button>
+        <button class="puce" id="b-recaler" type="button">Recaler l'alpha</button>
+      </div></div>
   </section>
 
   <section class="sortie" aria-labelledby="t-sortie">
@@ -182,6 +217,16 @@ header{display:flex;align-items:baseline;justify-content:space-between;gap:12px;
 
   <button class="lancer" id="b-lancer" type="button">Lancer la séance</button>
 
+  <section class="journal" aria-labelledby="t-journal">
+    <h2 class="titre-bloc" id="t-journal">Journal</h2>
+    <div class="rang">
+      <button class="puce" id="b-aveugle" type="button">Essais à l'aveugle</button>
+      <button class="btn" id="b-export" type="button">Exporter (CSV)</button>
+    </div>
+    <p class="note">À l'aveugle, une séance sur deux est tirée au sort en lumière arythmique (même fréquence moyenne, rythme irrégulier). Vous notez la séance, puis la condition est révélée.</p>
+    <ol id="j-liste"></ol>
+  </section>
+
   <section class="avant">
     <h3>Avant de commencer</h3>
     <ul>
@@ -198,11 +243,14 @@ header{display:flex;align-items:baseline;justify-content:space-between;gap:12px;
 </div>
 
 <div id="lumiere" hidden>
-  <div class="aide" id="aide">Touchez l'écran pour afficher les commandes</div>
+  <div class="aide" id="aide">Un appui sur l'écran éteint la lumière aussitôt</div>
   <div id="hud">
     <div class="hud-haut"><b id="h-nom"></b><span class="hud-val"><span id="h-phase"></span><span id="h-f"></span><span id="h-reste"></span><span id="h-ips"></span></span></div>
+    <p class="hud-mesure" id="h-mesure" hidden>Yeux fermés. Touchez l'écran chaque fois que les motifs sont les plus nets. <span id="h-appuis"></span></p>
+    <p class="note" id="h-pause" hidden>Lumière éteinte. Le son continue.</p>
     <p class="note" id="h-lent" hidden>Écran limité à 30 images par seconde : les flashs rapides seront irréguliers. Sur iPhone, désactivez le mode économie d'énergie.</p>
     <div class="hud-bas">
+      <button class="btn" id="h-reprendre" type="button" hidden>Reprendre la lumière</button>
       <button class="btn" id="h-moins" type="button" hidden>− 0,5 Hz</button>
       <button class="btn" id="h-plus" type="button" hidden>+ 0,5 Hz</button>
       <button class="btn" id="h-stop" type="button">Arrêter</button>
@@ -210,7 +258,20 @@ header{display:flex;align-items:baseline;justify-content:space-between;gap:12px;
   </div>
 </div>
 
-<div id="calage" hidden>
+<div id="avis" class="feuille" hidden>
+  <h3>Comment s'est passée la séance ?</h3>
+  <div class="ligne"><label for="av-visu">Visions</label>
+    <div class="curseur"><input id="av-visu" type="range" min="0" max="10" step="1" value="5"><output id="o-visu">5</output></div></div>
+  <div class="ligne"><label for="av-calme">Détente</label>
+    <div class="curseur"><input id="av-calme" type="range" min="0" max="10" step="1" value="5"><output id="o-calme">5</output></div></div>
+  <p id="av-revel" hidden></p>
+  <div class="cal-fin">
+    <button class="btn" id="av-passer" type="button">Ne pas noter</button>
+    <button class="btn ok" id="av-ok" type="button">Enregistrer</button>
+  </div>
+</div>
+
+<div id="calage" class="feuille" hidden>
   <h3 id="c-titre">Calage</h3>
   <p>Un clic retentit à chaque début de flash, deux fois par seconde. Réglez le retard jusqu'à ce que flash et clic tombent ensemble. Augmentez si le flash arrive avant le clic.</p>
   <div class="cal-val" id="c-val">0 ms</div>
@@ -236,18 +297,22 @@ header{display:flex;align-items:baseline;justify-content:space-between;gap:12px;
       <li>Arrêtez immédiatement en cas de malaise, vertige, nausée, vision troublée ou mouvement involontaire.</li>
       <li>Gardez un volume modéré au casque.</li>
     </ul>
-    <p>Toutes les séances restent sous 14 Hz, hors de la plage 15–25 Hz la plus sensible. Ce n'est pas un dispositif médical.</p>
-    <label><input type="checkbox" id="a-ok"> J'ai lu cet avertissement et aucune de ces contre-indications ne me concerne.</label>
+    <p>Toutes les séances restent sous 14 Hz, hors de la plage 15–25 Hz la plus sensible, sans rouge saturé. Un appui sur l'écran éteint la lumière aussitôt. Ce n'est pas un dispositif médical.</p>
+    <div id="a-questions"></div>
+    <p class="refus" id="a-refus" hidden>Avec cette réponse, n'utilisez pas HYPNOGEN sans l'accord d'un médecin.</p>
+    <label><input type="checkbox" id="a-ok"> J'ai lu cet avertissement et aucune des autres contre-indications ne me concerne.</label>
     <button class="lancer" id="a-continuer" type="button" disabled>Continuer</button>
   </div>
 </div>
 
 <script>
 "use strict";
-var VERSION="1.2.0";
+var VERSION="1.3.0";
 const $=s=>document.querySelector(s);
-const CARR=200;               // porteuse binaurale (Hz)
+const PORTEUSES=[200,300,400]; // porteuse (Hz) : le battement binaural est le mieux perçu vers 400 Hz
 const F_MAX=14;               // plafond de sécurité du projet
+const F_MIN=0.25;             // plancher audio : les séances de sommeil finissent à 0,25 Hz, lumière éteinte
+const MESURE_S=150,MESURE_F0=7,MESURE_F1=13,REACTION=0.6;
 const DUREES=[10,15,20,25,30,45,60];
 
 /* ---------- catalogue : [poids, f0, f1, couleur, onde] — onde 's' sinus, 'p' impulsion ---------- */
@@ -255,8 +320,9 @@ const SEANCES=[
  {nom:'RELAXATION',min:20,but:"Détente progressive, de l'éveil calme vers un état posé.",ph:[[2,12,10,'chaud','s'],[3,10,8,'chaud','s'],[3,8,5,'chaud','s'],[3,5,4,'chaud','s'],[3,4,4,'chaud','s']]},
  {nom:'IMAGINATION',min:25,but:"Rêverie éveillée et images mentales, avec des flashs nets.",ph:[[3,12,9,'balayage','p'],[4,9,7,'balayage','p'],[4,7,6,'balayage','p'],[5,6,6,'balayage','p']]},
  {nom:'HYPNAGOGIE',min:30,but:"Long palier à 7,83 Hz pour rester au seuil du sommeil.",ph:[[3,10,7.83,'ambre','s'],[10,7.83,7.83,'ambre','s'],[4,7.83,6.3,'ambre','s'],[5,6.3,6.3,'ambre','s']]},
- {nom:'ENDORMISSEMENT',min:20,but:"Descente continue jusqu'au delta pour s'endormir.",ph:[[2,10,6,'chaud','s'],[3,6,3,'chaud','s'],[3,3,1,'chaud','s'],[3,1,0.5,'chaud','s'],[3,0.5,0.5,'chaud','s']]},
- {nom:'RÊVE',min:25,but:"Glissement lent vers le sommeil profond.",ph:[[2,8,4,'chaud','s'],[3,4,2,'chaud','s'],[3,2,1,'chaud','s'],[3,1,0.5,'chaud','s'],[4,0.5,0.5,'chaud','s']]},
+ /* eteint : la lumière s'éteint en fondu autour de cette fréquence ; le son seul descend ensuite jusqu'à 0,25 Hz */
+ {nom:'ENDORMISSEMENT',min:20,eteint:2,but:"Descente continue jusqu'au delta, finie dans le noir, pour s'endormir.",ph:[[2,10,6,'chaud','s'],[3,6,3,'chaud','s'],[3,3,1,'chaud','s'],[3,1,0.5,'chaud','s'],[3,0.5,0.25,'chaud','s']]},
+ {nom:'RÊVE',min:25,eteint:2,but:"Glissement lent vers le sommeil profond, fini dans le noir.",ph:[[2,8,4,'chaud','s'],[3,4,2,'chaud','s'],[3,2,1,'chaud','s'],[3,1,0.5,'chaud','s'],[4,0.5,0.25,'chaud','s']]},
  {nom:'ANCRAGE',min:15,but:"Courte séance de recentrage qui finit très bas.",ph:[[2,10,7.83,'ambre','s'],[4,7.83,7.83,'ambre','s'],[3,7.83,1.12,'ambre','s'],[4,1.12,1.12,'ambre','s']]},
  {nom:'MÉDITATION',min:30,but:"Méditation longue, descente lente vers 1 Hz.",ph:[[2,10,7.83,'violet','s'],[3,7.83,7.83,'violet','s'],[3,7.83,2.5,'violet','s'],[3,2.5,1.45,'violet','s'],[4,1.45,1.05,'violet','s'],[4,1.05,1.05,'violet','s']]},
  {nom:'TRANSE',min:30,but:"Plongée profonde puis remontée vers le thêta.",ph:[[2,10,7.83,'violet','p'],[3,7.83,4,'violet','p'],[4,4,2,'violet','p'],[5,2,2,'violet','p'],[3,2,4,'violet','p'],[4,4,4,'violet','p']]},
@@ -292,14 +358,37 @@ function phaseInfo(s,st,dur){
     acc+=w;
   }
 }
+/* fréquence personnelle : la zone alpha est déplacée vers la valeur mesurée, au maximum à 10 Hz,
+   sans effet à 7 et 13 Hz ; la pente reste positive tant que l'écart est sous 3 Hz (borné à 8–12) */
+function recaler(f){
+  if(!P.recaler||!P.fPerso)return f;
+  const w=Math.max(0,1-Math.abs(f-10)/3);
+  return Math.min(F_MAX,f+(P.fPerso-10)*w);
+}
+function freqSeance(s,st,dur){return recaler(phaseInfo(s,st,dur).f);}
+/* lumière de sommeil : 1 au-dessus de eteint+0,5 Hz, 0 en dessous de eteint-0,5 Hz */
+function facteurEteint(s,f){
+  if(!s.eteint)return 1;
+  const x=Math.max(0,Math.min(1,f-(s.eteint-0.5)));return x*x*(3-2*x);
+}
+/* contrôle arythmique : même fréquence moyenne, intervalles irréguliers.
+   Déformation de phase strictement croissante (dérivée >= 1 - 0,58 - 0,22 > 0) */
+function arythmique(c){return c+0.25*Math.sin(2*Math.PI*c/2.7)+0.15*Math.sin(2*Math.PI*c/4.3);}
 function plage(s){let lo=99,hi=0;s.ph.forEach(p=>{lo=Math.min(lo,p[1],p[2]);hi=Math.max(hi,p[1],p[2]);});return [lo,hi];}
 const fmtHz=f=>(f<10?f.toFixed(2):f.toFixed(1)).replace('.',',');
 
 /* ---------- préférences (mémorisées dans ce navigateur) ---------- */
-const DEF={seance:0,duree:20,mode:'profil',manuelF:7.83,vol:0.55,lum:1,sorties:[{nom:'Filaire / haut-parleur',ms:0},{nom:'Casque Bluetooth',ms:180}],sortie:0,accepte:false};
+/* QV : version du questionnaire de sécurité ; l'augmenter le fait repasser à tout le monde */
+const QV=2;
+const DEF={seance:0,duree:20,mode:'profil',manuelF:7.83,vol:0.55,lum:0.7,prof:0.8,son:'binaural',carr:200,fPerso:null,recaler:false,aveugle:false,
+  sorties:[{nom:'Filaire / haut-parleur',ms:0},{nom:'Casque Bluetooth',ms:180}],sortie:0,accepte:false,qv:0};
 let P=Object.assign({},DEF);
 try{const s=JSON.parse(localStorage.getItem('hypnogen.v1')||'null');if(s)P=Object.assign({},DEF,s);}catch(e){}
+if(P.qv!==QV)P.accepte=false;
 function sauver(){try{localStorage.setItem('hypnogen.v1',JSON.stringify(P));}catch(e){}}
+let J=[];
+try{J=JSON.parse(localStorage.getItem('hypnogen.journal')||'[]');}catch(e){J=[];}
+function sauverJournal(){try{localStorage.setItem('hypnogen.journal',JSON.stringify(J));}catch(e){}}
 
 /* ---------- interface ---------- */
 const rail=$('#rail');
@@ -315,11 +404,19 @@ DUREES.forEach(d=>{const b=document.createElement('button');b.className='puce';b
   b.onclick=()=>{P.duree=d;sauver();rendre();};dz.appendChild(b);});
 $('#m-profil').onclick=()=>{P.mode='profil';sauver();rendre();};
 $('#m-manuel').onclick=()=>{P.mode='manuel';sauver();rendre();};
-['manuelF','vol','lum'].forEach(k=>{const el=$('#'+k);el.value=P[k];el.oninput=()=>{P[k]=+el.value;sauver();majValeurs();if(k==='manuelF')dessiner();};});
+['manuelF','vol','lum','prof'].forEach(k=>{const el=$('#'+k);el.value=P[k];el.oninput=()=>{P[k]=+el.value;sauver();majValeurs();if(k==='manuelF')dessiner();};});
+const pz=$('#porteuses');
+PORTEUSES.forEach(c=>{const b=document.createElement('button');b.className='puce';b.type='button';b.textContent=c+' Hz';b.dataset.c=c;
+  b.onclick=()=>{P.carr=c;sauver();rendre();};pz.appendChild(b);});
+$('#son-binaural').onclick=()=>{P.son='binaural';sauver();rendre();};
+$('#son-iso').onclick=()=>{P.son='iso';sauver();rendre();};
+$('#b-recaler').onclick=()=>{if(!P.fPerso)return;P.recaler=!P.recaler;sauver();rendre();};
+$('#b-aveugle').onclick=()=>{P.aveugle=!P.aveugle;sauver();rendre();};
 function majValeurs(){
   $('#o-manuelF').textContent=fmtHz(P.manuelF)+' Hz';
   $('#o-vol').textContent=Math.round(P.vol*100)+' %';
   $('#o-lum').textContent=Math.round(P.lum*100)+' %';
+  $('#o-prof').textContent=Math.round(P.prof*100)+' %';
 }
 function majSorties(){
   const sel=$('#sortie');sel.innerHTML='';
@@ -338,8 +435,21 @@ function rendre(){
   $('#d-nom').textContent=s.nom;$('#d-but').textContent=s.but;
   const ondes=[...new Set(s.ph.map(p=>p[4]==='s'?'sinus':'impulsion'))].join(' / ');
   const cols=[...new Set(s.ph.map(p=>NOM_COUL[p[3]]))].join(' / ');
-  $('#d-fiche').innerHTML=`<span>phases <em>${s.ph.length}</em></span><span>onde <em>${ondes}</em></span><span>couleur <em>${cols}</em></span><span>conseillée <em>${s.min} min</em></span>`;
-  majValeurs();majSorties();dessiner();
+  $('#d-fiche').innerHTML=`<span>phases <em>${s.ph.length}</em></span><span>onde <em>${ondes}</em></span><span>couleur <em>${cols}</em></span><span>conseillée <em>${s.min} min</em></span>`
+    +(s.eteint?`<span>lumière <em>éteinte sous ${fmtHz(s.eteint)} Hz</em></span>`:'');
+  // son
+  const iso=P.son==='iso';
+  $('#son-binaural').setAttribute('aria-pressed',!iso);$('#son-iso').setAttribute('aria-pressed',iso);
+  pz.querySelectorAll('.puce').forEach(b=>b.setAttribute('aria-pressed',+b.dataset.c===P.carr));
+  $('#n-son').textContent=iso
+    ?'Isochrone : le volume pulse en phase avec la lumière. Fonctionne aussi sur haut-parleur.'
+    :'Binaural : casque stéréo obligatoire, un son par oreille, le battement naît dans le cerveau.';
+  $('#etiquette').textContent=`web · v${VERSION.replace(/\.0$/,'')} · ${iso?'isochrone':'binaural'} ${P.carr} Hz`;
+  // fréquence personnelle
+  $('#o-perso').textContent=P.fPerso?fmtHz(P.fPerso)+' Hz':'non mesurée';
+  $('#b-recaler').hidden=!P.fPerso;$('#b-recaler').setAttribute('aria-pressed',!!(P.recaler&&P.fPerso));
+  $('#b-aveugle').setAttribute('aria-pressed',P.aveugle);
+  majValeurs();majSorties();dessiner();majJournal();
 }
 
 /* ---------- tracé du profil ---------- */
@@ -363,7 +473,13 @@ function dessiner(){
   s.ph.slice(0,-1).forEach(p=>{acc+=p[0];const x=L+acc/W*pw;g.beginPath();g.moveTo(x+.5,T);g.lineTo(x+.5,T+ph);g.stroke();});g.setLineDash([]);
   // courbe
   const manuel=P.mode==='manuel',pts=[];
-  for(let i=0;i<=240;i++){const t=i/240*dur;pts.push([X(t),Y(manuel?P.manuelF:phaseInfo(s,t,dur).f)]);}
+  for(let i=0;i<=240;i++){const t=i/240*dur;pts.push([X(t),Y(manuel?P.manuelF:freqSeance(s,t,dur))]);}
+  // zone où la lumière est éteinte (séances de sommeil)
+  if(!manuel&&s.eteint){
+    let x0=null;for(let i=0;i<=240;i++){const t=i/240*dur;if(facteurEteint(s,freqSeance(s,t,dur))<0.5){x0=X(t);break;}}
+    if(x0!==null){g.fillStyle='rgba(0,0,0,.35)';g.fillRect(x0,T,L+pw-x0,ph);
+      g.fillStyle=tok('--pale');g.textAlign='right';g.textBaseline='bottom';g.fillText('son seul',L+pw-4,Y(0)-3);}
+  }
   g.beginPath();pts.forEach(([x,y],i)=>i?g.lineTo(x,y):g.moveTo(x,y));g.lineTo(L+pw,Y(0));g.lineTo(L,Y(0));g.closePath();
   g.fillStyle=tok('--ambre-sombre');g.fill();
   g.beginPath();pts.forEach(([x,y],i)=>i?g.lineTo(x,y):g.moveTo(x,y));g.strokeStyle=tok('--ambre');g.lineWidth=2;g.stroke();
@@ -399,23 +515,43 @@ let R=null;               // séance en cours
 const PAS=0.05,AVANCE=0.3,LISSAGE=0.15;
 function cible(st){
   if(R.calage)return 2;
+  if(R.mesure)return MESURE_F0+(MESURE_F1-MESURE_F0)*Math.min(1,Math.max(0,st)/R.dur);
   if(R.mode==='manuel')return P.manuelF;
-  return phaseInfo(R.seance,st,R.dur).f;
+  return freqSeance(R.seance,st,R.dur);
 }
 function niveau(st){
   if(R.calage)return Math.min(1,st/0.3)*0.12*P.vol;
-  const env=Math.max(0,Math.min(1,st/20,(R.dur-st)/15));
+  const env=Math.max(0,Math.min(1,st/(R.mesure?3:20),(R.dur-st)/(R.mesure?3:15)));
   return env*P.vol*P.vol*0.5;
 }
-function demarrer(calage){
+/* genre : 'seance' | 'calage' (latence) | 'mesure' (fréquence personnelle) */
+function demarrer(genre){
   preparerAudio();
-  const t0=ctx.currentTime+0.25,oL=ctx.createOscillator(),oR=ctx.createOscillator(),m=ctx.createChannelMerger(2),g=ctx.createGain();
-  oL.connect(m,0,0);oR.connect(m,0,1);m.connect(g);g.connect(ctx.destination);
-  R={calage,t0,seance:SEANCES[P.seance],mode:P.mode,dur:calage?1e9:P.duree*60,oL,oR,g,clicN:0,calMs:P.sorties[P.sortie].ms};
+  const calage=genre==='calage',mesure=genre==='mesure';
+  const iso=P.son==='iso'&&!calage,carr=P.carr;
+  const t0=ctx.currentTime+0.25,g=ctx.createGain();g.connect(ctx.destination);
+  R={calage,mesure,t0,iso,carr,seance:SEANCES[P.seance],mode:mesure?'profil':P.mode,dur:calage?1e9:mesure?MESURE_S:P.duree*60,
+     g,clicN:0,calMs:P.sorties[P.sortie].ms,prof:calage?1:P.prof,pauseLum:false,appuis:[],
+     controle:!calage&&!mesure&&P.aveugle&&Math.random()<0.5};
   const f0=Math.min(F_MAX,cible(0));
-  oL.frequency.setValueAtTime(CARR-f0/2,t0);oR.frequency.setValueAtTime(CARR+f0/2,t0);g.gain.setValueAtTime(0,t0);
+  if(iso){
+    /* isochrone : une seule porteuse dans les deux oreilles, volume modulé par un oscillateur
+       qui suit les mêmes rampes de fréquence. Onde cosinus : crête du son = crête du flash (phase 0). */
+    const o=ctx.createOscillator(),am=ctx.createGain(),mod=ctx.createOscillator(),mg=ctx.createGain();
+    mod.setPeriodicWave(ctx.createPeriodicWave(new Float32Array([0,1]),new Float32Array([0,0]),{disableNormalization:true}));
+    am.gain.value=0.5;mg.gain.value=0.5;
+    o.connect(am);am.connect(g);mod.connect(mg);mg.connect(am.gain);
+    o.frequency.setValueAtTime(carr,t0);mod.frequency.setValueAtTime(f0,t0);
+    R.mod=mod;R.oscs=[o,mod];
+  }else{
+    const oL=ctx.createOscillator(),oR=ctx.createOscillator(),m=ctx.createChannelMerger(2);
+    oL.connect(m,0,0);oR.connect(m,0,1);m.connect(g);
+    oL.frequency.setValueAtTime(carr-f0/2,t0);oR.frequency.setValueAtTime(carr+f0/2,t0);
+    R.oL=oL;R.oR=oR;R.oscs=[oL,oR];
+  }
+  g.gain.setValueAtTime(0,t0);
   decal=null;dureeImage=1/60;dernierTs=0;
-  oL.start(t0);oR.start(t0);            // départ simultané : écart de phase nul à t0
+  R.oscs.forEach(o=>o.start(t0));       // départ simultané : écart de phase nul à t0
   R.noeuds=[{t:t0,f:f0,ph:0}];
   R.timer=setInterval(planifier,25);planifier();
   garderEcran();
@@ -430,16 +566,17 @@ function planifier(){
   const horizon=ctx.currentTime+AVANCE;let k=R.noeuds[R.noeuds.length-1];
   while(k.t<horizon){
     const t=k.t+PAS,st=t-R.t0;
-    const c=Math.min(F_MAX,Math.max(0.5,cible(st)));
+    const c=Math.min(F_MAX,Math.max(F_MIN,cible(st)));
     const f=k.f+(c-k.f)*(1-Math.exp(-PAS/LISSAGE));
     const ph=k.ph+(k.f+f)/2*PAS;
-    R.oL.frequency.linearRampToValueAtTime(CARR-f/2,t);R.oR.frequency.linearRampToValueAtTime(CARR+f/2,t);
+    if(R.iso)R.mod.frequency.linearRampToValueAtTime(f,t);
+    else{R.oL.frequency.linearRampToValueAtTime(R.carr-f/2,t);R.oR.frequency.linearRampToValueAtTime(R.carr+f/2,t);}
     R.g.gain.linearRampToValueAtTime(niveau(st),t);
     if(R.calage){while(R.t0+R.clicN/2<t){const tc=R.t0+R.clicN/2;if(tc>=k.t)clic(tc);R.clicN++;}}
     k={t,f,ph};R.noeuds.push(k);
   }
   const lim=ctx.currentTime-3;while(R.noeuds.length>2&&R.noeuds[1].t<lim)R.noeuds.shift();
-  if(!R.calage&&ctx.currentTime>R.t0+R.dur+0.2)arreter();
+  if(!R.calage&&ctx.currentTime>R.t0+R.dur+0.2)arreter(true);
 }
 function clic(t){const s=ctx.createBufferSource(),g=ctx.createGain();g.gain.value=0.25+0.5*P.vol;s.buffer=clicBuf;s.connect(g);g.connect(ctx.destination);s.start(t);}
 /* phase (en cycles) au temps t : intégrale exacte de la rampe linéaire entre deux nœuds */
@@ -462,15 +599,24 @@ function image(ts){
   // l'image calculée maintenant s'affiche à la prochaine synchro et reste visible une durée d'image
   const t=tAudible(performance.now())+dureeImage-ms/1000;
   let rgb=[0,0,0];
-  if(t>=R.t0){
+  if(t>=R.t0&&!R.pauseLum){
     const st=t-R.t0;
     let col='blanc',onde='p',env=1;
-    if(!R.calage){const I=phaseInfo(R.seance,Math.min(st,R.dur),R.dur);col=I.col;onde=I.wave;env=Math.max(0,Math.min(1,st/8,(R.dur-st)/10));}
+    if(R.mesure){col='ambre';onde='p';env=Math.max(0,Math.min(1,st/3,(R.dur-st)/3));}
+    else if(!R.calage){
+      const I=phaseInfo(R.seance,Math.min(st,R.dur),R.dur);col=I.col;onde=I.wave;
+      env=Math.max(0,Math.min(1,st/8,(R.dur-st)/10));
+      if(R.mode!=='manuel')env*=facteurEteint(R.seance,recaler(I.f));
+    }
     // luminance moyenne sur toute la durée de l'image : chaque cycle reçoit la même énergie
     // quelle que soit sa position par rapport aux images, au lieu de 2 ou 3 images pleines
     let b=0;
-    for(let k=0;k<SOUS;k++){const x=phaseA(t+(k+0.5)/SOUS*dureeImage)%1;b+=onde==='s'?(1+Math.cos(2*Math.PI*x))/2:impulsion(x);}
+    for(let k=0;k<SOUS;k++){
+      let c=phaseA(t+(k+0.5)/SOUS*dureeImage);if(R.controle)c=arythmique(c);
+      const x=((c%1)+1)%1;b+=onde==='s'?(1+Math.cos(2*Math.PI*x))/2:impulsion(x);
+    }
     b/=SOUS;
+    b=(1-R.prof)+R.prof*b;                     // profondeur : le creux ne descend pas sous 1-prof
     const v=Math.pow(b*env*P.lum,1/2.2);       // moyenne faite en luminance, puis encodage gamma
     rgb=couleur(col,st).map(c=>Math.round(c*v));
   }
@@ -484,18 +630,22 @@ function majHud(st){
   $('#h-ips').textContent=ips+' i/s';
   $('#h-lent').hidden=ips>40;
   const I=phaseInfo(R.seance,Math.min(st,R.dur),R.dur),k=R.noeuds[R.noeuds.length-1];
-  $('#h-nom').textContent=R.seance.nom+(R.mode==='manuel'?' · MANUEL':'');
-  $('#h-phase').textContent=R.mode==='manuel'?'':'phase '+(I.i+1)+'/'+I.n;
+  $('#h-nom').textContent=R.mesure?'MESURE':R.seance.nom+(R.mode==='manuel'?' · MANUEL':'');
+  $('#h-phase').textContent=R.mesure||R.mode==='manuel'?'':'phase '+(I.i+1)+'/'+I.n;
   $('#h-f').textContent=fmtHz(k.f)+' Hz';
   const r=Math.max(0,Math.round(R.dur-st));$('#h-reste').textContent=Math.floor(r/60)+':'+String(r%60).padStart(2,'0');
+  $('#h-appuis').textContent=R.appuis.length?'('+R.appuis.length+' appui'+(R.appuis.length>1?'s':'')+')':'';
 }
-function arreter(){
-  if(!R)return;const t=ctx.currentTime;clearInterval(R.timer);
+/* fin : true quand la séance est allée à son terme */
+function arreter(fin){
+  if(!R)return;const t=ctx.currentTime,fini=R,ecoule=t-R.t0;clearInterval(R.timer);
   R.g.gain.cancelScheduledValues(t);R.g.gain.setValueAtTime(R.g.gain.value,t);R.g.gain.linearRampToValueAtTime(0,t+0.15);
-  R.oL.stop(t+0.2);R.oR.stop(t+0.2);R=null;
+  R.oscs.forEach(o=>o.stop(t+0.2));R=null;
   $('#lumiere').hidden=true;$('#calage').hidden=true;$('#lumiere').style.backgroundColor='#000';
   lacherEcran();
   try{document.fullscreenElement&&document.exitFullscreen().catch(()=>{});}catch(e){}
+  if(fini.mesure)finirMesure(fini,fin===true);
+  else if(!fini.calage&&ecoule>=120)ouvrirAvis(fini,Math.min(ecoule,fini.dur));
 }
 
 /* ---------- veille de l'écran ---------- */
@@ -508,41 +658,135 @@ document.addEventListener('visibilitychange',()=>{if(R&&document.visibilityState
 let minuteur=null;
 function montrerHud(){
   if(!R||R.calage)return;$('#hud').classList.remove('cache');$('#aide').hidden=true;
-  const man=R.mode==='manuel';$('#h-moins').hidden=!man;$('#h-plus').hidden=!man;
-  clearTimeout(minuteur);minuteur=setTimeout(()=>$('#hud').classList.add('cache'),4000);
+  const man=R.mode==='manuel'&&!R.mesure;$('#h-moins').hidden=!man;$('#h-plus').hidden=!man;
+  $('#h-mesure').hidden=!R.mesure;$('#h-pause').hidden=!R.pauseLum;$('#h-reprendre').hidden=!R.pauseLum;
+  clearTimeout(minuteur);
+  // pendant une mesure ou lumière éteinte, les commandes restent affichées
+  if(!R.mesure&&!R.pauseLum)minuteur=setTimeout(()=>$('#hud').classList.add('cache'),4000);
 }
-$('#lumiere').addEventListener('click',e=>{if(e.target.closest('button'))return;montrerHud();});
-$('#h-stop').onclick=arreter;
+/* sécurité : pendant une séance, un appui n'importe où éteint la lumière immédiatement ;
+   elle ne revient que par « Reprendre la lumière ». Pendant la mesure, un appui marque l'instant. */
+$('#lumiere').addEventListener('pointerdown',e=>{
+  if(!R||R.calage||e.target.closest('button'))return;
+  if(R.mesure){
+    const st=tAudible(performance.now())-R.t0-REACTION;
+    if(st>3){R.appuis.push(cible(st));clic(ctx.currentTime+0.01);}
+  }else R.pauseLum=true;
+  montrerHud();
+});
+$('#h-reprendre').onclick=()=>{if(!R)return;R.pauseLum=false;montrerHud();};
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&R)arreter();});
+$('#h-stop').onclick=()=>arreter();
 $('#h-moins').onclick=()=>{P.manuelF=Math.max(0.5,+(P.manuelF-0.5).toFixed(2));sauver();montrerHud();};
 $('#h-plus').onclick=()=>{P.manuelF=Math.min(F_MAX,+(P.manuelF+0.5).toFixed(2));sauver();montrerHud();};
 
-$('#b-lancer').onclick=()=>{
-  if(!P.accepte){ouvrirAvert(true);return;}
-  demarrer(false);$('#aide').hidden=false;montrerHud();
-};
+function lancerSeance(){demarrer('seance');$('#aide').hidden=false;montrerHud();}
+function lancerMesure(){demarrer('mesure');$('#aide').hidden=true;montrerHud();}
+$('#b-lancer').onclick=()=>{if(!P.accepte){ouvrirAvert(lancerSeance);return;}lancerSeance();};
+$('#b-mesure').onclick=()=>{if(!P.accepte){ouvrirAvert(lancerMesure);return;}lancerMesure();};
+
+/* ---------- fréquence personnelle : balayage 7 → 13 Hz, l'utilisateur marque les moments les plus nets ---------- */
+function finirMesure(m,complet){
+  const a=m.appuis.slice().sort((x,y)=>x-y);
+  if(!a.length){if(complet)alert("Aucun appui enregistré : la fréquence personnelle n'a pas changé.");return;}
+  const med=a.length%2?a[(a.length-1)/2]:(a[a.length/2-1]+a[a.length/2])/2;
+  P.fPerso=Math.round(Math.max(8,Math.min(12,med))*100)/100;P.recaler=true;sauver();rendre();
+  alert('Fréquence personnelle : '+fmtHz(P.fPerso)+' Hz ('+a.length+' appui'+(a.length>1?'s':'')+'). Les phases alpha des séances sont recalées dessus.');
+}
 
 /* ---------- calage ---------- */
 function majCal(){$('#c-val').textContent=R.calMs+' ms';$('#c-ms').value=R.calMs;}
 $('#b-caler').onclick=()=>{
-  if(!P.accepte){ouvrirAvert(false);return;}
-  demarrer(true);$('#hud').classList.add('cache');$('#aide').hidden=true;
+  if(!P.accepte){ouvrirAvert(null);return;}
+  demarrer('calage');$('#hud').classList.add('cache');$('#aide').hidden=true;
   $('#c-titre').textContent='Calage : '+P.sorties[P.sortie].nom;$('#calage').hidden=false;majCal();
 };
 $('#c-ms').oninput=e=>{R.calMs=+e.target.value;majCal();};
 $('#c-moins').onclick=()=>{R.calMs=Math.max(-50,R.calMs-5);majCal();};
 $('#c-plus').onclick=()=>{R.calMs=Math.min(500,R.calMs+5);majCal();};
-$('#c-annuler').onclick=arreter;
+$('#c-annuler').onclick=()=>arreter();
 $('#c-ok').onclick=()=>{P.sorties[P.sortie].ms=R.calMs;sauver();arreter();majSorties();};
 
-/* ---------- avertissement ---------- */
-let lancerApres=false;
-function ouvrirAvert(lancer){lancerApres=lancer;$('#a-ok').checked=P.accepte;$('#a-continuer').disabled=!P.accepte;$('#avert').hidden=false;}
-$('#a-ok').onchange=e=>{$('#a-continuer').disabled=!e.target.checked;};
-$('#a-continuer').onclick=()=>{P.accepte=true;sauver();$('#avert').hidden=true;if(lancerApres){demarrer(false);$('#aide').hidden=false;montrerHud();}};
-$('#b-avert').onclick=()=>ouvrirAvert(false);
+/* ---------- avertissement et questionnaire bloquant ---------- */
+const QUESTIONS=[
+  "Avez-vous déjà fait une crise d'épilepsie ou des convulsions ?",
+  "Un parent proche (père, mère, frère, sœur, enfant) est-il épileptique ?",
+  "Une lumière clignotante vous a-t-elle déjà causé un malaise, une absence ou un mouvement involontaire ?",
+  "Avez-vous des migraines avec aura ?"
+];
+const qz=$('#a-questions');
+QUESTIONS.forEach((q,i)=>{
+  const f=document.createElement('fieldset');f.className='question';
+  f.innerHTML=`<legend>${q}</legend><div class="puces"><label><input type="radio" name="q${i}" value="oui"> Oui</label><label><input type="radio" name="q${i}" value="non"> Non</label></div>`;
+  qz.appendChild(f);
+});
+function reponses(){return QUESTIONS.map((_,i)=>{const r=document.querySelector(`input[name=q${i}]:checked`);return r?r.value:null;});}
+function majAvert(){
+  const r=reponses(),oui=r.includes('oui'),toutNon=r.every(v=>v==='non');
+  $('#a-refus').hidden=!oui;
+  $('#a-ok').disabled=oui;if(oui)$('#a-ok').checked=false;
+  $('#a-continuer').disabled=!(toutNon&&$('#a-ok').checked);
+}
+qz.addEventListener('change',majAvert);
+let apresAvert=null;
+function ouvrirAvert(suite){
+  apresAvert=suite;
+  QUESTIONS.forEach((_,i)=>document.querySelectorAll(`input[name=q${i}]`).forEach(x=>{x.checked=P.accepte&&x.value==='non';}));
+  $('#a-ok').checked=P.accepte;majAvert();$('#avert').hidden=false;
+}
+$('#a-ok').onchange=majAvert;
+$('#a-continuer').onclick=()=>{
+  P.accepte=true;P.qv=QV;sauver();$('#avert').hidden=true;
+  const s=apresAvert;apresAvert=null;if(s)s();
+};
+$('#b-avert').onclick=()=>ouvrirAvert(null);
+
+/* ---------- journal ---------- */
+let enAttente=null;
+function ouvrirAvis(r,ecoule){
+  enAttente={date:new Date().toISOString(),seance:r.seance.nom,mode:r.mode,son:r.iso?'isochrone':'binaural',porteuse:r.carr,
+    minutes:Math.round(ecoule/6)/10,profondeur:Math.round(r.prof*100),recale:!!(P.recaler&&P.fPerso),
+    aveugle:P.aveugle,controle:r.controle};
+  $('#av-visu').value=5;$('#av-calme').value=5;$('#o-visu').textContent='5';$('#o-calme').textContent='5';
+  $('#av-revel').hidden=true;$('#av-ok').textContent='Enregistrer';$('#av-passer').hidden=false;
+  $('#avis').hidden=false;
+}
+['visu','calme'].forEach(k=>{$('#av-'+k).oninput=e=>{$('#o-'+k).textContent=e.target.value;};});
+function fermerAvis(){$('#avis').hidden=true;enAttente=null;}
+$('#av-passer').onclick=fermerAvis;
+$('#av-ok').onclick=()=>{
+  if(!enAttente){fermerAvis();return;}
+  if($('#av-revel').hidden&&enAttente.aveugle&&!enAttente.note){
+    // la note est figée avant de révéler la condition
+    enAttente.visions=+$('#av-visu').value;enAttente.detente=+$('#av-calme').value;enAttente.note=true;
+    J.unshift(enAttente);sauverJournal();majJournal();
+    $('#av-revel').textContent='Condition tirée : '+(enAttente.controle?'lumière ARYTHMIQUE (contrôle).':'lumière RYTHMIQUE (normale).');
+    $('#av-revel').hidden=false;$('#av-ok').textContent='Fermer';$('#av-passer').hidden=true;return;
+  }
+  if(!enAttente.note){enAttente.visions=+$('#av-visu').value;enAttente.detente=+$('#av-calme').value;J.unshift(enAttente);sauverJournal();majJournal();}
+  fermerAvis();
+};
+function majJournal(){
+  const ol=$('#j-liste');ol.innerHTML='';
+  if(!J.length){ol.innerHTML='<li class="vide">Aucune séance notée pour l\'instant.</li>';return;}
+  J.slice(0,12).forEach(e=>{
+    const li=document.createElement('li'),d=new Date(e.date);
+    const cond=e.aveugle?(e.controle?' · arythmique':' · rythmique'):'';
+    li.innerHTML=`<span>${e.seance}${cond}</span><span class="score">visions ${e.visions} · détente ${e.detente}</span>`
+      +`<small>${d.toLocaleDateString('fr-FR')} ${d.toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'})} · ${String(e.minutes).replace('.',',')} min · ${e.son} ${e.porteuse} Hz · profondeur ${e.profondeur} %${e.recale?' · recalée':''}</small>`;
+    ol.appendChild(li);
+  });
+}
+$('#b-export').onclick=()=>{
+  if(!J.length)return;
+  const cols=['date','seance','mode','minutes','son','porteuse','profondeur','recale','aveugle','controle','visions','detente'];
+  const csv=[cols.join(';')].concat(J.map(e=>cols.map(c=>String(e[c]??'').replace(/;/g,',')).join(';'))).join('\n');
+  const a=document.createElement('a');a.href=URL.createObjectURL(new Blob(['﻿'+csv],{type:'text/csv'}));
+  a.download='hypnogen-journal.csv';document.body.appendChild(a);a.click();a.remove();
+};
 
 rendre();
-if(!P.accepte)ouvrirAvert(false);
+if(!P.accepte)ouvrirAvert(null);
 $('#version').textContent='Version '+VERSION;
 
 /* ---------- installation et hors ligne ---------- */
