@@ -132,8 +132,18 @@ T = {
 "non": "Non",
 "calage": "Calage",
 "calage.titre": "Calage : {nom}",
-"calage.texte": "Un clic retentit à chaque début de flash, deux fois par seconde. Réglez le retard jusqu'à ce que flash et clic tombent ensemble. Augmentez si le flash arrive avant le clic.",
+"calage.texte": "Flash et clic sont réglés d'après vos appuis. S'ils ne tombent pas exactement ensemble, ajustez : augmentez si le flash arrive avant le clic, diminuez s'il arrive après.",
 "calage.aria": "Retard de la lumière en millisecondes",
+"calage.etape.son": "Étape 1 sur 3 · Le son",
+"calage.son": "Touchez l'écran en même temps que chaque clic, en suivant le rythme. Inutile de regarder l'écran.",
+"calage.etape.image": "Étape 2 sur 3 · La lumière",
+"calage.image": "Même chose avec les flashs : touchez l'écran en même temps que chaque flash. Il n'y a plus de son.",
+"calage.etape.verif": "Étape 3 sur 3 · Vérification",
+"calage.compte": "{n} appuis sur {total}",
+"calage.irregulier": "Appuis trop irréguliers (± {ms} ms). Recommencez cette étape en suivant le rythme calmement.",
+"calage.mesure": "Mesuré : {ms} ms",
+"calage.manuel": "Régler à la main",
+"calage.refaire": "Refaire la mesure",
 "mesure.aucun": "Aucun appui enregistré : la fréquence personnelle n'a pas changé.",
 "mesure.resultat.1": "Fréquence personnelle : {f} Hz (1 appui). Les phases alpha des séances sont recalées dessus.",
 "mesure.resultat.n": "Fréquence personnelle : {f} Hz ({n} appuis). Les phases alpha des séances sont recalées dessus.",
@@ -240,11 +250,12 @@ T = {
 <p>Pour caler une sortie :</p>
 <ol>
 <li>Choisissez la sortie dans la liste et branchez ou connectez le casque correspondant.</li>
-<li>Touchez « Caler cette sortie ». L'écran flashe en blanc deux fois par seconde et un clic retentit au début de chaque flash. Gardez les yeux ouverts.</li>
-<li>Réglez le retard avec le curseur ou les boutons −5 / +5 ms (de −50 à 500 ms). Si le flash arrive avant le clic, augmentez ; s'il arrive après, diminuez.</li>
-<li>Quand flash et clic tombent ensemble, touchez « Enregistrer ».</li>
+<li>Touchez « Caler cette sortie ». Un clic retentit un peu plus d'une fois par seconde : touchez l'écran en même temps que chaque clic, une douzaine de fois. Les deux premiers appuis ne comptent pas.</li>
+<li>L'écran flashe ensuite au même rythme, sans son : touchez l'écran en même temps que chaque flash, de la même façon.</li>
+<li>L'application en déduit le retard du son sur l'image, puis fait clignoter flash et clic ensemble. S'ils ne tombent pas exactement ensemble, ajustez avec le curseur ou les boutons −5 / +5 ms : augmentez si le flash arrive avant le clic, diminuez s'il arrive après.</li>
+<li>Touchez « Enregistrer ».</li>
 </ol>
-<p>Le calage se fait à 2 Hz parce qu'à cette cadence un décalage de 50 ms se voit nettement ; à 10 Hz il serait indiscernable. Refaites-le si vous changez de casque ou si la synchronisation vous semble dériver. La « latence annoncée par le navigateur » est donnée à titre indicatif : elle est souvent fausse en Bluetooth, d'où le calage à l'oreille.</p>
+<p>Taper deux rythmes est plus facile que de juger à l'œil si un flash et un clic coïncident, et votre temps de réaction, le même dans les deux étapes, s'annule. « Régler à la main » saute la mesure et passe directement au curseur. Refaites le calage si vous changez de casque ou si la synchronisation vous semble dériver. La « latence annoncée par le navigateur » est donnée à titre indicatif : elle est souvent fausse en Bluetooth.</p>
 
 <h3>Paramétrage son replié</h3>
 <p>Une fois le premier réglage fait, le bloc son se replie et affiche son résumé. Touchez-le pour l'ouvrir et changer un réglage.</p>""",

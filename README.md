@@ -31,8 +31,8 @@ Une fois installée, elle s'ouvre en plein écran et fonctionne sans réseau (ap
 - Luminosité au maximum, luminosité automatique, True Tone / Night Shift ou Confort des yeux coupés.
 - 11 séances à profil (RELAXATION, HYPNAGOGIE, ENDORMISSEMENT…), durée de 10 à 60 min.
 - Mode **PROFIL** (la séance pilote la fréquence) ou **MANUEL** (fréquence fixe de 0,5 à 14 Hz).
-- **Calage** : un clic retentit au début de chaque flash à 2 Hz ; régler le retard jusqu'à ce
-  qu'ils coïncident. Le retard est mémorisé par sortie audio (filaire, chaque casque Bluetooth).
+- **Calage** : on tape l'écran au rythme des clics, puis au rythme des flashs ; l'application en déduit
+  le retard du son, puis on vérifie flash et clic ensemble (ajustement fin au curseur). Le retard est mémorisé par sortie audio (filaire, chaque casque Bluetooth).
 
 ## Contenu du dépôt
 
