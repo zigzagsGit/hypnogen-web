@@ -1,0 +1,383 @@
+# Dictionnaire de référence (français) de HYPNOGEN Web.
+# Exécuter `python3 i18n/src_fr.py` pour régénérer i18n/fr.json, puis `python3 i18n/build.py`.
+# Les textes entre {accolades} sont des valeurs insérées par l'application : ne pas les traduire.
+import json, os
+
+T = {
+"_meta": {"code": "fr", "nom": "Français", "dec": ","},
+
+# ---------- interface ----------
+"aide.bouton": "Aide",
+"aide.ouvrir": "Ouvrir l'aide",
+"seance": "Séance",
+"seance.choix": "Choix de la séance",
+"profil.aria": "Profil de fréquence de la séance",
+"profil.aria.nom": "Profil de fréquence de {nom}",
+"profil.exclus": "15–25 Hz exclus",
+"profil.sonseul": "son seul",
+"fiche.complete": "Fiche complète de la séance",
+"fiche.phases": "phases",
+"fiche.onde": "onde",
+"fiche.couleur": "couleur",
+"fiche.conseillee": "conseillée",
+"fiche.lumiere": "lumière",
+"fiche.eteinte": "éteinte sous {f} Hz",
+"fiche.ressenti": "Ressenti",
+"fiche.conseils": "Conseils",
+"fiche.choisir": "Choisir cette séance",
+"onde.s": "sinus",
+"onde.p": "impulsion",
+"coul.chaud": "ambre chaud",
+"coul.ambre": "ambre",
+"coul.or": "or",
+"coul.vert": "vert",
+"coul.violet": "violet",
+"coul.balayage": "balayage de teinte",
+"coul.blanc": "blanc",
+"min": "{n} min",
+"carte": "{min} min · {lo}–{hi} Hz",
+"pct": "{n} %",
+"reglages": "Réglages",
+"reglages.lien": "Tous les réglages expliqués",
+"duree": "Durée",
+"frequence": "Fréquence",
+"mode": "Mode de fréquence",
+"mode.profil": "PROFIL",
+"mode.manuel": "MANUEL",
+"fixe": "Fixe",
+"lumiere": "Lumière",
+"profondeur": "Profondeur",
+"profondeur.note": "Écart entre flash et creux. Moins de profondeur = clignotement plus doux, jamais le noir complet.",
+"perso": "Fréquence perso",
+"perso.non": "non mesurée",
+"perso.mesurer": "Mesurer",
+"perso.recaler": "Recaler l'alpha",
+"son.titre": "Paramétrage son",
+"son.premier": "Premier réglage : choisissez le type de son, réglez le volume, puis calez votre sortie audio. Ce bloc se repliera ensuite et s'ouvrira à la demande.",
+"volume": "Volume",
+"son": "Son",
+"son.type": "Type de son",
+"son.binaural": "BINAURAL",
+"son.iso": "ISOCHRONE",
+"son.court.bin": "Binaural",
+"son.court.iso": "Isochrone",
+"son.note.bin": "Binaural : casque stéréo obligatoire, un son par oreille, le battement naît dans le cerveau.",
+"son.note.iso": "Isochrone : le volume pulse en phase avec la lumière. Fonctionne aussi sur haut-parleur.",
+"son.fini": "Réglage terminé",
+"porteuse": "Porteuse",
+"resume": "{son} {c} Hz · volume {v} · {sortie} {ms} ms",
+"etiquette": "web · v{v} · {son} {c} Hz",
+"etiq.bin": "binaural",
+"etiq.iso": "isochrone",
+"sortie.titre": "Sortie audio et calage",
+"sortie.caler": "Caler cette sortie",
+"sortie.nom": "Nom d'un autre casque",
+"sortie.ajouter": "Ajouter",
+"sortie.retard": "Retard de la lumière : {ms} ms",
+"sortie.nav": "Latence annoncée par le navigateur : {ms} ms",
+"sortie.nav.inconnue": "Latence annoncée par le navigateur : connue après le premier lancement",
+"sortie.filaire": "Filaire / haut-parleur",
+"sortie.bt": "Casque Bluetooth",
+"lancer": "Lancer la séance",
+"journal": "Journal",
+"journal.aveugle": "Essais à l'aveugle",
+"journal.export": "Exporter (CSV)",
+"journal.note": "À l'aveugle, une séance sur deux est tirée au sort en lumière arythmique (même fréquence moyenne, rythme irrégulier). Vous notez la séance, puis la condition est révélée.",
+"journal.vide": "Aucune séance notée pour l'instant.",
+"journal.score": "visions {v} · détente {d}",
+"journal.detail": "{date} · {min} min · {son} {c} Hz · profondeur {p} %",
+"journal.recalee": "recalée",
+"journal.arythmique": "arythmique",
+"journal.rythmique": "rythmique",
+"avant.titre": "Avant de commencer",
+"avant.liste": "<li>Casque stéréo obligatoire en binaural : le battement n'existe pas sur un haut-parleur.</li><li>Luminosité de l'écran au maximum, luminosité automatique coupée.</li><li>Désactivez True Tone et Night Shift (iPhone) ou le Confort des yeux (Samsung) : ils faussent les couleurs.</li><li>Sur iPhone, si le son ne sort pas, vérifiez le bouton silencieux.</li><li>Yeux fermés, téléphone à 10–15 cm du visage, ou dans un support de type masque.</li><li>Calez chaque casque Bluetooth une fois : sa latence est mémorisée.</li>",
+"avert.relire": "Relire l'avertissement de sécurité",
+"version": "Version {v}",
+"retour": "← Retour",
+"langue": "Langue",
+"langue.auto": "Langue du téléphone",
+"sommaire": "Sommaire",
+"som.principe": "Principe",
+"som.bandes": "Fréquences",
+"som.lumiere": "Lumière",
+"som.son": "Son",
+"som.reglages": "Réglages",
+"som.perso": "Fréquence perso",
+"som.pendant": "Pendant la séance",
+"som.journal": "Journal",
+"som.seances": "Les séances",
+"hud.appui": "Un appui sur l'écran éteint la lumière aussitôt",
+"hud.mesure": "Yeux fermés. Touchez l'écran chaque fois que les motifs sont les plus nets.",
+"hud.pause": "Lumière éteinte. Le son continue.",
+"hud.lent": "Écran limité à 30 images par seconde : les flashs rapides seront irréguliers. Sur iPhone, désactivez le mode économie d'énergie.",
+"hud.reprendre": "Reprendre la lumière",
+"hud.arreter": "Arrêter",
+"hud.mesure.nom": "MESURE",
+"hud.manuel": "MANUEL",
+"hud.phase": "phase {i}/{n}",
+"hud.ips": "{n} i/s",
+"hud.appuis.1": "(1 appui)",
+"hud.appuis.n": "({n} appuis)",
+"avis.titre": "Comment s'est passée la séance ?",
+"avis.visions": "Visions",
+"avis.detente": "Détente",
+"avis.passer": "Ne pas noter",
+"avis.revel.ary": "Condition tirée : lumière ARYTHMIQUE (contrôle).",
+"avis.revel.ryt": "Condition tirée : lumière RYTHMIQUE (normale).",
+"fermer": "Fermer",
+"enregistrer": "Enregistrer",
+"annuler": "Annuler",
+"continuer": "Continuer",
+"oui": "Oui",
+"non": "Non",
+"calage": "Calage",
+"calage.titre": "Calage : {nom}",
+"calage.texte": "Un clic retentit à chaque début de flash, deux fois par seconde. Réglez le retard jusqu'à ce que flash et clic tombent ensemble. Augmentez si le flash arrive avant le clic.",
+"calage.aria": "Retard de la lumière en millisecondes",
+"mesure.aucun": "Aucun appui enregistré : la fréquence personnelle n'a pas changé.",
+"mesure.resultat.1": "Fréquence personnelle : {f} Hz (1 appui). Les phases alpha des séances sont recalées dessus.",
+"mesure.resultat.n": "Fréquence personnelle : {f} Hz ({n} appuis). Les phases alpha des séances sont recalées dessus.",
+"tab.min": "min",
+"tab.freq": "Fréquence",
+"tab.bande": "Bande",
+"tab.palier": "{f} Hz, palier",
+"tab.glisse": "{a} → {b} Hz",
+"tab.fondu": "lumière en fondu",
+"tab.sonseul": "son seul",
+"bande.delta": "delta",
+"bande.theta": "thêta",
+"bande.alpha": "alpha",
+"bande.beta": "bêta bas",
+"avert.titre": "Avertissement de sécurité",
+"avert.refus": "Avec cette réponse, n'utilisez pas HYPNOGEN sans l'accord d'un médecin.",
+"avert.case": "J'ai lu cet avertissement et aucune des autres contre-indications ne me concerne.",
+"q.1": "Avez-vous déjà fait une crise d'épilepsie ou des convulsions ?",
+"q.2": "Un parent proche (père, mère, frère, sœur, enfant) est-il épileptique ?",
+"q.3": "Une lumière clignotante vous a-t-elle déjà causé un malaise, une absence ou un mouvement involontaire ?",
+"q.4": "Avez-vous des migraines avec aura ?",
+"avert.texte": """<p>HYPNOGEN produit une lumière clignotante rythmée. Chez certaines personnes, ce type de stimulation peut déclencher une crise d'épilepsie, même sans antécédent connu.</p>
+<ul>
+<li>N'utilisez pas l'application en cas d'épilepsie, d'antécédent de convulsions ou de photosensibilité, personnelle ou familiale.</li>
+<li>Évitez-la en cas de migraines, de trouble psychiatrique, de grossesse, ou avec un stimulateur cardiaque, sans avis médical.</li>
+<li>Jamais en conduisant ni en utilisant une machine.</li>
+<li>Arrêtez immédiatement en cas de malaise, vertige, nausée, vision troublée ou mouvement involontaire.</li>
+<li>Gardez un volume modéré au casque.</li>
+</ul>
+<p>Toutes les séances restent sous 14 Hz, hors de la plage 15–25 Hz la plus sensible, sans rouge saturé. Un appui sur l'écran éteint la lumière aussitôt. Ce n'est pas un dispositif médical.</p>""",
+
+# ---------- page d'aide ----------
+"aide.principe": """<h2>Le principe</h2>
+<p>HYPNOGEN fait clignoter l'écran à une fréquence donnée pendant que le casque fait entendre un battement à la même fréquence. Lumière et son lisent la même horloge : chaque flash tombe sur le même instant du battement, du début à la fin de la séance.</p>
+<p>On pratique les yeux fermés, téléphone à 10–15 cm du visage. À travers les paupières, la lumière rythmée fait souvent apparaître des motifs colorés, des formes géométriques, parfois des images plus construites : ce sont des phosphènes, produits par le système visuel lui-même.</p>
+<p>Une séance est une suite de phases. Chaque phase fait glisser la fréquence d'une valeur de départ vers une valeur d'arrivée, en douceur (pente nulle au début et à la fin, aucun à-coup entre deux phases), ou la maintient sur un palier. Les phases ont un poids relatif et non une durée fixe : si vous passez une séance de 30 à 20 minutes, toute la progression se resserre sans perdre aucune étape.</p>""",
+
+"aide.bandes": """<h2>Les bandes de fréquence</h2>
+<p>Les séances se repèrent par les bandes de l'électroencéphalogramme. Ce sont des repères commodes : la stimulation ne « met » pas le cerveau dans un état, elle propose un rythme que chacun suit plus ou moins.</p>
+<div class="defile"><table class="tableau">
+<thead><tr><th>Bande</th><th>Plage</th><th>Associée à</th></tr></thead>
+<tbody>
+<tr><td>Delta</td><td>0,25 – 4 Hz</td><td>sommeil profond</td></tr>
+<tr><td>Thêta</td><td>4 – 8 Hz</td><td>somnolence, seuil du sommeil, images hypnagogiques</td></tr>
+<tr><td>Alpha</td><td>8 – 13 Hz</td><td>éveil détendu, yeux fermés</td></tr>
+<tr><td>Bêta bas</td><td>13 – 14 Hz</td><td>éveil attentif (plafond de l'application)</td></tr>
+<tr class="exclu"><td>Exclue</td><td>15 – 25 Hz</td><td>pic de sensibilité photo-épileptique : jamais utilisée</td></tr>
+</tbody></table></div>
+<p>La valeur 7,83 Hz, qui revient dans plusieurs séances, est la fréquence de la résonance de Schumann. Elle sert ici de point d'appui à la frontière alpha–thêta.</p>""",
+
+"aide.lumiere": """<h2>Lumière : couleurs et formes d'onde</h2>
+<dl class="duo">
+<dt>Sinus</dt><dd>La lumière monte et descend en douceur. Enveloppant, adapté aux séances de détente et de sommeil.</dd>
+<dt>Impulsion</dt><dd>Flash bref et net, presque carré. Plus riche en motifs visuels, utilisé pour l'imagerie et les séances toniques.</dd>
+<dt>Ambre chaud, ambre, or</dt><dd>Teintes chaudes, les plus reposantes. Le rouge saturé n'est jamais affiché : c'est la couleur la plus provocante pour la photosensibilité.</dd>
+<dt>Vert, violet</dt><dd>Teintes froides, propres à MÉMOIRE (vert) et à MÉDITATION et TRANSE (violet).</dd>
+<dt>Balayage</dt><dd>La teinte fait le tour du cercle des couleurs en 50 secondes, toujours sans rouge saturé.</dd>
+</dl>""",
+
+"aide.son": """<h2>Son</h2>
+<dl class="duo">
+<dt>Binaural</dt><dd>Deux sons purs légèrement différents, un par oreille (par exemple 197 et 203 Hz pour 6 Hz). Le battement n'existe pas dans l'air : il naît dans le cerveau. Casque stéréo obligatoire.</dd>
+<dt>Isochrone</dt><dd>Un seul son, dans les deux oreilles, dont le volume pulse au rythme de la séance. La crête du son coïncide avec le flash. Fonctionne aussi sur haut-parleur.</dd>
+<dt>Porteuse</dt><dd>Hauteur du son de base : 200 Hz (grave, comme le boîtier HYPNOGEN), 300 ou 400 Hz. Le battement binaural est en général le mieux perçu vers 400 Hz ; 200 Hz est plus doux pour dormir.</dd>
+</dl>
+<p>Ces réglages sont regroupés dans le bloc « Paramétrage son », ouvert au premier usage puis replié : son résumé (type de son, porteuse, volume, sortie) reste visible. Le détail de chaque réglage est dans la section suivante.</p>""",
+
+"aide.reglages": """<h2>Les réglages en détail</h2>
+<p>Tous les réglages sont enregistrés dans le téléphone et retrouvés à l'ouverture suivante. Ils ne quittent jamais l'appareil.</p>
+
+<h3>Séance</h3>
+<p>Le bandeau du haut fait défiler les onze séances. En choisir une affiche son profil (courbe de la fréquence dans le temps) et applique sa durée conseillée. La bande rouge du profil marque la zone 15–25 Hz, que l'application n'atteint jamais. Le lien « Fiche complète » ouvre la description détaillée de la séance.</p>
+
+<h3>Durée</h3>
+<p>10, 15, 20, 25, 30, 45 ou 60 minutes. Toutes les phases s'allongent ou se resserrent dans les mêmes proportions : une séance raccourcie garde sa progression, elle la parcourt simplement plus vite. Les phases très courtes laissent moins de temps pour s'installer ; en dessous de la moitié de la durée conseillée, l'effet est souvent plus faible.</p>
+
+<h3>Fréquence : PROFIL ou MANUEL</h3>
+<p><b>PROFIL</b> (par défaut) : la séance pilote la fréquence, phase après phase.</p>
+<p><b>MANUEL</b> : vous imposez une fréquence fixe avec le curseur « Fixe », de 0,5 à 14 Hz. Pendant la séance, les boutons −0,5 Hz et +0,5 Hz la modifient sans s'arrêter. La séance ne fournit plus que sa couleur et sa forme d'onde. En manuel, la fréquence personnelle n'est pas appliquée et la lumière des séances de sommeil ne s'éteint pas d'elle-même.</p>
+<p>Usage typique : après une séance FIBONACCI, rejouer en manuel le palier qui a donné les images les plus nettes.</p>
+
+<h3>Lumière</h3>
+<p>Intensité maximale des flashs, de 10 à 100 % (70 % par défaut). Elle s'applique en plus de la luminosité de l'écran, qui doit rester au maximum. Commencez à 70 % ; montez si les motifs restent pâles, descendez si la lumière éblouit à travers les paupières.</p>
+
+<h3>Profondeur</h3>
+<p>Écart entre la crête du flash et le creux entre deux flashs, de 30 à 100 % (80 % par défaut). À 100 %, la lumière retombe au noir complet. À 80 %, le creux garde 20 % de la luminosité de la crête. À 50 %, la lumière ne descend qu'à mi-hauteur : le clignotement devient une pulsation douce.</p>
+<p>Une forte profondeur donne des motifs plus contrastés ; une profondeur réduite est plus confortable et plus prudente. Si vous trouvez le clignotement fatigant, baissez d'abord la profondeur, avant la lumière.</p>
+
+<h3>Fréquence perso</h3>
+<p>Affiche votre fréquence personnelle si elle a été mesurée. « Mesurer » lance la mesure (2 min 30, voir la section suivante). « Recaler l'alpha » active ou désactive le recalage des séances sur cette fréquence ; le bouton n'apparaît qu'après une mesure.</p>
+
+<h3>Volume</h3>
+<p>De 0 à 100 % (55 % par défaut). La courbe est progressive : les petites valeurs restent fines à régler, ce qui compte pour dormir. Le son monte en 20 secondes au début de la séance et s'éteint en 15 secondes à la fin : ne réglez pas le volume du téléphone au tout début, attendez qu'il soit monté. Gardez un niveau modéré, surtout pour les séances longues.</p>
+
+<h3>Son : BINAURAL ou ISOCHRONE</h3>
+<p><b>Binaural</b> : chaque oreille reçoit un son pur légèrement différent ; l'écart entre les deux est la fréquence de la séance. C'est le mode d'origine du HYPNOGEN. Il exige un casque ou des écouteurs stéréo ; le sens gauche/droite n'a pas d'importance.</p>
+<p><b>Isochrone</b> : un seul son, dont le volume monte et descend au rythme de la séance, crête du son sur le flash. Le battement est plus marqué et fonctionne sur haut-parleur, mais il est aussi plus présent, ce qui peut gêner pour dormir.</p>
+
+<h3>Porteuse</h3>
+<p>Hauteur du son de base : 200, 300 ou 400 Hz (200 Hz par défaut). La fréquence de la séance ne change pas, seule la hauteur du son change. 200 Hz est grave et discret ; 400 Hz rend le battement binaural plus net pour beaucoup de personnes. Essayez les trois sur une même séance et gardez celui qui vous convient.</p>
+
+<h3>Sortie audio et calage</h3>
+<p>Un casque Bluetooth retarde le son de 100 à 300 ms selon le modèle ; sans correction, le flash arriverait avant le son. Chaque sortie mémorise son propre retard : « Filaire / haut-parleur » (0 ms par défaut) et « Casque Bluetooth » (180 ms par défaut). « Ajouter » crée une sortie pour un autre casque, avec 180 ms au départ.</p>
+<p>Pour caler une sortie :</p>
+<ol>
+<li>Choisissez la sortie dans la liste et branchez ou connectez le casque correspondant.</li>
+<li>Touchez « Caler cette sortie ». L'écran flashe en blanc deux fois par seconde et un clic retentit au début de chaque flash. Gardez les yeux ouverts.</li>
+<li>Réglez le retard avec le curseur ou les boutons −5 / +5 ms (de −50 à 500 ms). Si le flash arrive avant le clic, augmentez ; s'il arrive après, diminuez.</li>
+<li>Quand flash et clic tombent ensemble, touchez « Enregistrer ».</li>
+</ol>
+<p>Le calage se fait à 2 Hz parce qu'à cette cadence un décalage de 50 ms se voit nettement ; à 10 Hz il serait indiscernable. Refaites-le si vous changez de casque ou si la synchronisation vous semble dériver. La « latence annoncée par le navigateur » est donnée à titre indicatif : elle est souvent fausse en Bluetooth, d'où le calage à l'oreille.</p>
+
+<h3>Paramétrage son replié</h3>
+<p>Une fois le premier réglage fait, le bloc son se replie et affiche son résumé. Touchez-le pour l'ouvrir et changer un réglage.</p>""",
+
+"aide.perso": """<h2>Mesurer votre fréquence personnelle</h2>
+<p>Les séances sont écrites autour de 10 Hz, la valeur moyenne du rythme alpha. Mais chacun a son propre pic alpha, quelque part entre 8 et 12 Hz environ. La mesure cherche la fréquence à laquelle la lumière produit chez vous les motifs les plus nets, puis décale les phases alpha des séances vers cette valeur.</p>
+
+<h3>Préparer la mesure</h3>
+<ul>
+<li>Choisissez un moment calme, sans fatigue particulière : la fréquence varie un peu avec la vigilance.</li>
+<li>Réglez d'abord la lumière et la profondeur comme pour une séance normale.</li>
+<li>Asseyez-vous, téléphone à 10–15 cm du visage, casque en place, yeux fermés.</li>
+</ul>
+
+<h3>Déroulement</h3>
+<ol>
+<li>Touchez « Mesurer » à côté de « Fréquence perso ».</li>
+<li>Pendant 2 min 30, la lumière ambre clignote en impulsions et la fréquence monte régulièrement de 7 à 13 Hz (le son suit). Les trois premières secondes servent à démarrer et ne comptent pas.</li>
+<li>Touchez l'écran chaque fois que les motifs sont les plus nets, les plus colorés ou les plus vivants. Un clic confirme chaque appui. Vous pouvez toucher plusieurs fois, par exemple au début et à la fin d'une zone où les images sont fortes : c'est même recommandé.</li>
+<li>Laissez la mesure aller à son terme. Vous pouvez aussi l'arrêter plus tôt : les appuis déjà faits sont utilisés.</li>
+</ol>
+<p>Pendant la mesure, un appui ne coupe pas la lumière : il marque l'instant. Le bouton « Arrêter » reste affiché.</p>
+
+<h3>Comment le résultat est calculé</h3>
+<ul>
+<li>Pour chaque appui, l'application retient la fréquence affichée 0,6 seconde plus tôt, pour tenir compte de votre temps de réaction.</li>
+<li>Le résultat est la médiane de ces fréquences : un appui isolé trop tôt ou trop tard ne le déplace pas.</li>
+<li>Il est borné entre 8 et 12 Hz, puis enregistré, et le recalage est activé automatiquement.</li>
+<li>Sans aucun appui, rien ne change.</li>
+</ul>
+
+<h3>Ce que fait le recalage</h3>
+<p>Le recalage déplace la zone alpha des séances vers votre fréquence, sans toucher au reste :</p>
+<ul>
+<li>à 10 Hz, la séance utilise exactement votre fréquence ;</li>
+<li>la correction diminue en s'éloignant de 10 Hz et s'annule à 7 Hz et à 13 Hz ;</li>
+<li>en dessous de 7 Hz (thêta, delta) et au-dessus de 13 Hz, rien ne change ;</li>
+<li>le plafond de 14 Hz est toujours respecté.</li>
+</ul>
+<p>Exemple avec une fréquence personnelle de 9 Hz : 10 Hz devient 9 Hz, 8,5 Hz devient 8 Hz, 12 Hz devient 11,67 Hz ; 7 et 13 Hz restent tels quels. Avec 11 Hz : 10 Hz devient 11 Hz et 12 Hz devient 12,33 Hz.</p>
+<p>Le profil affiché sur l'écran principal tient compte du recalage. Les profils de cette aide, eux, montrent les séances d'origine. Le recalage ne s'applique pas en mode MANUEL.</p>
+
+<h3>Conseils</h3>
+<ul>
+<li>Refaites la mesure deux ou trois fois, à des jours différents : si les résultats sont proches, la valeur est fiable.</li>
+<li>Si les résultats varient beaucoup, ou si vous n'avez rien remarqué de net, désactivez « Recaler l'alpha » : les séances d'origine fonctionnent très bien sans.</li>
+<li>Comparez avec le journal : notez quelques séances recalées et non recalées, puis regardez l'écart.</li>
+</ul>""",
+
+"aide.pendant": """<h2>Pendant la séance</h2>
+<ul>
+<li>L'écran passe en plein écran et reste allumé jusqu'à la fin.</li>
+<li>La lumière monte en 8 secondes et s'éteint en 10 secondes à la fin ; le son monte en 20 secondes et s'éteint en 15.</li>
+<li>Le bandeau du bas affiche la séance, la phase en cours, la fréquence, le temps restant et la cadence de l'écran en images par seconde. Il disparaît au bout de 4 secondes.</li>
+<li><b>Un appui n'importe où éteint la lumière aussitôt</b>, le son continue. « Reprendre la lumière » la rallume ; « Arrêter » met fin à la séance. La touche Échap arrête aussi la séance sur ordinateur.</li>
+<li>En MANUEL, les boutons −0,5 Hz et +0,5 Hz changent la fréquence en direct.</li>
+<li>Si l'écran est limité à 30 images par seconde (mode économie d'énergie), un avertissement s'affiche : les flashs rapides seraient irréguliers.</li>
+<li>Après toute séance de plus de 2 minutes, une fiche vous propose de la noter.</li>
+</ul>""",
+
+"aide.journal": """<h2>Journal et essais à l'aveugle</h2>
+<p>Après toute séance de plus de 2 minutes, vous notez les visions et la détente sur 10. Les notes restent dans le téléphone et s'exportent en CSV, avec la séance, la durée, le type de son, la porteuse, la profondeur et le recalage.</p>
+<p>En mode « Essais à l'aveugle », une séance sur deux est tirée au sort en lumière arythmique : même fréquence moyenne, mais intervalles irréguliers. Le son reste rythmique. Vous notez d'abord, la condition n'est révélée qu'ensuite. Au bout d'une vingtaine de séances, la comparaison des notes montre ce que le rythme apporte vraiment, pour vous.</p>""",
+
+"aide.seances": """<h2>Les séances</h2>
+<p>Onze séances, toutes sous 14 Hz. Les tableaux donnent le déroulé pour la durée conseillée.</p>""",
+
+"aide.securite": """<h2>Sécurité</h2>
+<p>Lumière clignotante rythmée : contre-indiquée en cas d'épilepsie, d'antécédent de convulsions ou de photosensibilité, personnelle ou familiale. Arrêtez au moindre malaise. HYPNOGEN n'est pas un dispositif médical et ne prétend soigner aucun trouble.</p>""",
+}
+
+# ---------- séances : nom affiché, accroche, déroulé, ressenti, conseils ----------
+# La clé est l'identifiant interne (nom français du firmware) : ne pas la traduire.
+S = {
+ "RELAXATION": {"nom": "RELAXATION",
+  "but": "Détente progressive, de l'éveil calme vers un état posé.",
+  "desc": "Descente régulière de l'alpha haut (12 Hz) jusqu'au seuil thêta–delta (4 Hz), sans détour : chaque phase reprend exactement là où la précédente s'arrête. La dernière phase tient 4 Hz pour laisser le temps de s'installer dans le calme obtenu.",
+  "ressenti": "Relâchement progressif, respiration qui ralentit. À mesure que la fréquence baisse, les flashs paraissent plus amples et plus lents, les motifs plus larges.",
+  "conseil": "La séance la plus simple pour découvrir HYPNOGEN. En fin de journée, pour couper après le travail, assis ou allongé."},
+ "IMAGINATION": {"nom": "IMAGINATION",
+  "but": "Rêverie éveillée et images mentales, avec des flashs nets.",
+  "desc": "Impulsions nettes et teinte qui tourne lentement (un tour du cercle des couleurs en 50 s). La fréquence descend de l'alpha vers 6 Hz, en plein thêta, puis s'y stabilise sur la plus longue phase de la séance.",
+  "ressenti": "C'est la séance la plus riche en images : motifs géométriques, tunnels, couleurs mouvantes, parfois des scènes plus construites dans le dernier quart.",
+  "conseil": "Ne cherchez pas à fixer les images : laissez-les venir et passer. Lumière à 70 % ou plus, profondeur élevée. Notez les visions dans le journal pour comparer d'une fois sur l'autre."},
+ "HYPNAGOGIE": {"nom": "HYPNAGOGIE",
+  "but": "Long palier à 7,83 Hz pour rester au seuil du sommeil.",
+  "desc": "Après une courte descente, un long palier à 7,83 Hz occupe près de la moitié de la séance, à la frontière alpha–thêta. La fin glisse vers 6,3 Hz. Le but est de rester suspendu au seuil de l'endormissement, sans y basculer.",
+  "ressenti": "Sensation de flotter, pensées qui se défont, images hypnagogiques brèves qui surgissent et s'effacent. Le corps peut sembler lourd ou au contraire léger.",
+  "conseil": "Plutôt assis ou semi-allongé : complètement allongé, on s'endort facilement. Si vous vous endormez à chaque fois, raccourcissez à 20 min ou passez en MANUEL vers 8 Hz."},
+ "ENDORMISSEMENT": {"nom": "ENDORMISSEMENT",
+  "but": "Descente continue jusqu'au delta, finie dans le noir, pour s'endormir.",
+  "desc": "Descente continue de 10 Hz jusqu'à 0,25 Hz. La lumière s'éteint en fondu autour de 2 Hz : la fin de la séance se passe dans le noir, avec le son seul qui poursuit la descente en delta.",
+  "ressenti": "Engourdissement progressif. Beaucoup de personnes ne voient pas la fin de la séance.",
+  "conseil": "Au lit, téléphone posé sur un support, casque confortable pour dormir, volume bas. Le son s'arrête en fondu, l'écran se rendort normalement ensuite."},
+ "RÊVE": {"nom": "RÊVE",
+  "but": "Glissement lent vers le sommeil profond, fini dans le noir.",
+  "desc": "Départ déjà bas, à 8 Hz, puis glissement plus lent et plus long que l'ENDORMISSEMENT dans le delta, jusqu'à 0,25 Hz. Comme lui, la lumière s'éteint vers 2 Hz et le son continue seul.",
+  "ressenti": "Plongée douce, sans la phase alpha du début : convient quand on est déjà fatigué.",
+  "conseil": "Pour une sieste, le coucher, ou après un réveil nocturne. Mêmes précautions que pour l'ENDORMISSEMENT : casque de nuit, volume bas."},
+ "ANCRAGE": {"nom": "ANCRAGE",
+  "but": "Courte séance de recentrage qui finit très bas.",
+  "desc": "Séance courte : un palier à 7,83 Hz pour se poser, puis une descente franche jusqu'à 1,12 Hz, maintenue jusqu'à la fin.",
+  "ressenti": "Coupure nette avec l'agitation du moment ; la fin, très lente, laisse un état calme et lourd.",
+  "conseil": "Pause de mi-journée. La séance finit très bas : prévoyez deux ou trois minutes pour revenir avant de reprendre une activité, et jamais avant de conduire."},
+ "MÉDITATION": {"nom": "MÉDITATION",
+  "but": "Méditation longue, descente lente vers 1 Hz.",
+  "desc": "La plus longue descente vers le delta léger : alpha, palier à 7,83 Hz, puis trois glissements successifs jusqu'à 1,05 Hz, tenu sur la dernière phase. Violet, en sinus.",
+  "ressenti": "Calme profond, attention qui se pose sans effort. La lumière devient très lente et enveloppante dans le dernier tiers.",
+  "conseil": "Assis, dos droit, en suivant la respiration si vous en avez l'habitude. 30 min conseillées ; 20 min suffisent pour commencer."},
+ "TRANSE": {"nom": "TRANSE",
+  "but": "Plongée profonde puis remontée vers le thêta.",
+  "desc": "Descente en impulsions jusqu'à un long palier à 2 Hz, puis remontée vers 4 Hz pour finir en thêta. Le retour vers le haut ramène des images après la phase la plus profonde.",
+  "ressenti": "Phase profonde et vide au milieu, puis réapparition d'images souvent plus nettes qu'au début.",
+  "conseil": "Séance intense : à réserver à quand les autres sont bien tolérées. Allongé, sans contrainte horaire derrière."},
+ "MÉMOIRE": {"nom": "MÉMOIRE",
+  "but": "Alternance alpha et thêta, retour à un alpha vif.",
+  "desc": "Alternance entre alpha (10,2 Hz) et thêta (7,8 Hz) avec un palier sur chacun, puis retour à un alpha vif. En vert, en sinus. La séance ne descend jamais sous 7,8 Hz.",
+  "ressenti": "Détente sans somnolence ; on en sort éveillé.",
+  "conseil": "Avant ou pendant une pause de révision ou de réflexion. Elle est pensée pour accompagner ce moment ; aucun effet sur la mémoire n'est promis."},
+ "HUMEUR": {"nom": "HUMEUR",
+  "but": "Séance tonique, plafonnée à 14 Hz.",
+  "desc": "Séance tonique qui monte de 10 à 14 Hz, tient le haut, puis redescend à 12 Hz. Or, en impulsions. Plafonnée à 14 Hz, alors que les protocoles dont elle s'inspire montent à 16 Hz : la marge garde la séance hors de la zone sensible.",
+  "ressenti": "Plutôt stimulante, flashs vifs et rapides.",
+  "conseil": "Le matin ou en début d'après-midi, assis ; pas le soir. Si le clignotement est inconfortable, baissez la profondeur à 50–60 %."},
+ "FIBONACCI": {"nom": "FIBONACCI",
+  "but": "Paliers 1, 2, 3, 5, 8 et 13 Hz, puis retour.",
+  "desc": "Onze paliers égaux qui suivent la suite de Fibonacci, 1, 2, 3, 5, 8 et 13 Hz, puis redescendent. Les passages d'un palier à l'autre sont adoucis en 150 ms. La suite s'arrête à 13 Hz : le terme suivant, 21 Hz, tomberait dans la plage exclue.",
+  "ressenti": "Séance d'exploration : chaque palier a un caractère propre, des flashs isolés à 1 Hz au scintillement rapide de 13 Hz.",
+  "conseil": "Utile pour découvrir les fréquences qui vous parlent le plus. Notez dans le journal à quel palier les images étaient les plus nettes, puis essayez cette fréquence en MANUEL."},
+}
+
+if __name__ == "__main__":
+    ici = os.path.dirname(os.path.abspath(__file__))
+    with open(os.path.join(ici, "fr.json"), "w", encoding="utf-8") as f:
+        json.dump({"t": T, "seances": S}, f, ensure_ascii=False, indent=1)
+    print("fr.json :", len(T), "textes,", len(S), "séances")

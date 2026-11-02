@@ -62,3 +62,19 @@ python -m http.server 8000
 ```
 
 puis ouvrir `http://localhost:8000/`.
+
+## Langues
+
+L'interface et l'aide existent en français, anglais, allemand, espagnol et italien. La langue du
+téléphone est choisie automatiquement (anglais pour toute autre langue) ; elle peut être imposée
+dans la page d'aide.
+
+Les textes sont dans `i18n/*.json` ; le français de référence est écrit dans `i18n/src_fr.py`.
+Après une modification :
+
+```bash
+python3 i18n/src_fr.py   # régénère i18n/fr.json
+python3 i18n/build.py    # injecte les cinq dictionnaires dans index.html
+```
+
+Toutes les langues doivent avoir les mêmes clés : `build.py` refuse sinon.
