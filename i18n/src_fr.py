@@ -173,7 +173,57 @@ T = {
 <li>Arrêtez immédiatement en cas de malaise, vertige, nausée, vision troublée ou mouvement involontaire.</li>
 <li>Gardez un volume modéré au casque.</li>
 </ul>
-<p>Toutes les séances restent sous 14 Hz, hors de la plage 15–25 Hz la plus sensible, sans rouge saturé. Un appui sur l'écran éteint la lumière aussitôt. Ce n'est pas un dispositif médical.</p>""",
+<p>Par défaut, toutes les séances restent sous 14 Hz, hors de la plage 15–25 Hz la plus sensible : celle-ci ne s'ouvre qu'à part, avec une lumière bridée. Jamais de rouge saturé. Un appui sur l'écran éteint la lumière aussitôt. Ce n'est pas un dispositif médical.</p>""",
+
+# ---------- zone bêta (15–25 Hz) ----------
+"beta": "Zone bêta",
+"beta.etat.ferme": "fermée",
+"beta.etat.ouvert": "ouverte, 15–25 Hz",
+"beta.ouvrir.court": "Ouvrir",
+"beta.refermer": "Refermer",
+"beta.note": "Au-dessus de 14 Hz : lumière 40 % au plus, profondeur 50 % au plus, sinus, 10 min au plus par séance.",
+"beta.titre": "Ouvrir la zone bêta (15–25 Hz)",
+"beta.texte": """<p>Entre 15 et 25 Hz se trouve le pic de sensibilité photo-épileptique : c'est la plage où une lumière clignotante déclenche le plus facilement une crise chez les personnes sensibles, parfois sans aucun antécédent connu.</p>
+<p>Une fois la zone ouverte, dès que la fréquence dépasse 14 Hz :</p>
+<ul>
+<li>la lumière est limitée à 40 % et la profondeur à 50 % ;</li>
+<li>l'onde devient un sinus, même dans une séance en impulsions ;</li>
+<li>une séance ne passe pas plus de 10 minutes au-dessus de 14 Hz, puis reste à 14 Hz ;</li>
+<li>la lumière se coupe si l'écran tourne sous 50 images par seconde.</li>
+</ul>
+<p>Ne l'utilisez pas fatigué, en manque de sommeil, après avoir bu de l'alcool ou avec un médicament qui abaisse le seuil épileptogène. Gardez les yeux fermés. Un appui sur l'écran éteint la lumière aussitôt.</p>""",
+"bq.1": "Pendant une séance HYPNOGEN, avez-vous déjà ressenti un malaise, un mal de tête, une gêne visuelle ou une secousse musculaire ?",
+"bq.2": "Avez-vous moins de 20 ans ? (La photosensibilité est la plus fréquente entre 7 et 19 ans.)",
+"beta.refus": "Avec cette réponse, la zone bêta reste fermée.",
+"beta.case": "J'ai compris que cette zone est la plus sensible et j'arrêterai au moindre symptôme.",
+"beta.ouvrir": "Ouvrir la zone bêta",
+"beta.manque": "La zone bêta s'ouvre après {n} séances d'au moins {min} minutes notées dans le journal. Vous en avez {k} pour l'instant.",
+"carte.verrou": "zone bêta",
+"profil.beta": "15–25 Hz : bêta, lumière bridée",
+"bande.beta2": "bêta",
+"hud.beta": "bêta",
+"hud.beta.fin": "10 minutes au-dessus de 14 Hz atteintes : la séance reste à 14 Hz jusqu'à la fin.",
+"hud.beta.lent": "Écran sous {n} images par seconde : lumière coupée au-dessus de 14 Hz, le son continue.",
+"journal.beta": "bêta {m} min",
+"som.beta": "Zone bêta",
+"aide.beta": """<h2>La zone bêta (15–25 Hz)</h2>
+<p>Par défaut, HYPNOGEN ne dépasse jamais 14 Hz. La zone 15–25 Hz, celle du bêta, est aussi le pic de sensibilité photo-épileptique : elle reste fermée tant que vous ne l'ouvrez pas vous-même, dans Réglages → Zone bêta.</p>
+<h3>Conditions d'ouverture</h3>
+<ul>
+<li>avoir accepté l'avertissement de sécurité général ;</li>
+<li>avoir noté dans le journal au moins 3 séances d'au moins 10 minutes ;</li>
+<li>répondre non à deux questions de plus : malaise pendant une séance, âge de moins de 20 ans.</li>
+</ul>
+<h3>Ce qui change au-dessus de 14 Hz</h3>
+<ul>
+<li><b>Lumière 40 % au plus, profondeur 50 % au plus</b> : le contraste du clignotement compte autant que sa fréquence.</li>
+<li><b>Sinus imposé</b> : les fronts raides d'une impulsion sont plus provocants.</li>
+<li><b>10 minutes au plus par séance</b> au-dessus de 14 Hz ; ensuite la séance reste à 14 Hz jusqu'à la fin.</li>
+<li><b>Écran à 50 images par seconde au moins</b> : en dessous, un clignotement à 20 Hz se décompose en battements irréguliers plus lents. La lumière se coupe et le son continue.</li>
+<li>Ces limites s'installent progressivement entre 14 et 15 Hz : aucune marche de luminosité.</li>
+</ul>
+<h3>Ce qu'elle permet</h3>
+<p>La séance CONCENTRATION (12 → 18,5 → 15 → 12 Hz, 20 minutes au plus) et le mode MANUEL jusqu'à 25 Hz. Au-dessus d'une vingtaine de hertz, le battement binaural devient difficile à percevoir : préférez le son ISOCHRONE. « Refermer » ramène l'application sous 14 Hz.</p>""",
 
 # ---------- page d'aide ----------
 "aide.principe": """<h2>Le principe</h2>
@@ -189,8 +239,8 @@ T = {
 <tr><td>Delta</td><td>0,25 – 4 Hz</td><td>sommeil profond</td></tr>
 <tr><td>Thêta</td><td>4 – 8 Hz</td><td>somnolence, seuil du sommeil, images hypnagogiques</td></tr>
 <tr><td>Alpha</td><td>8 – 13 Hz</td><td>éveil détendu, yeux fermés</td></tr>
-<tr><td>Bêta bas</td><td>13 – 14 Hz</td><td>éveil attentif (plafond de l'application)</td></tr>
-<tr class="exclu"><td>Exclue</td><td>15 – 25 Hz</td><td>pic de sensibilité photo-épileptique : jamais utilisée</td></tr>
+<tr><td>Bêta bas</td><td>13 – 14 Hz</td><td>éveil attentif (plafond par défaut)</td></tr>
+<tr class="exclu"><td>Bêta</td><td>15 – 25 Hz</td><td>éveil actif, concentration. Pic de sensibilité photo-épileptique : fermée par défaut, lumière bridée une fois ouverte</td></tr>
 </tbody></table></div>
 <p>La valeur 7,83 Hz, qui revient dans plusieurs séances, est la fréquence de la résonance de Schumann. Elle sert ici de point d'appui à la frontière alpha–thêta.</p>""",
 
@@ -215,14 +265,14 @@ T = {
 <p>Tous les réglages sont enregistrés dans le téléphone et retrouvés à l'ouverture suivante. Ils ne quittent jamais l'appareil.</p>
 
 <h3>Séance</h3>
-<p>Le bandeau du haut fait défiler les onze séances. En choisir une affiche son profil (courbe de la fréquence dans le temps) et applique sa durée conseillée. La bande rouge du profil marque la zone 15–25 Hz, que l'application n'atteint jamais. Le lien « Fiche complète » ouvre la description détaillée de la séance.</p>
+<p>Le bandeau du haut fait défiler les onze séances. En choisir une affiche son profil (courbe de la fréquence dans le temps) et applique sa durée conseillée. La bande rouge du profil marque la zone 15–25 Hz, que l'application n'atteint pas tant que la zone bêta est fermée. Le lien « Fiche complète » ouvre la description détaillée de la séance.</p>
 
 <h3>Durée</h3>
 <p>10, 15, 20, 25, 30, 45 ou 60 minutes. Toutes les phases s'allongent ou se resserrent dans les mêmes proportions : une séance raccourcie garde sa progression, elle la parcourt simplement plus vite. Les phases très courtes laissent moins de temps pour s'installer ; en dessous de la moitié de la durée conseillée, l'effet est souvent plus faible.</p>
 
 <h3>Fréquence : PROFIL ou MANUEL</h3>
 <p><b>PROFIL</b> (par défaut) : la séance pilote la fréquence, phase après phase.</p>
-<p><b>MANUEL</b> : vous imposez une fréquence fixe avec le curseur « Fixe », de 0,5 à 14 Hz. Pendant la séance, les boutons −0,5 Hz et +0,5 Hz la modifient sans s'arrêter. La séance ne fournit plus que sa couleur et sa forme d'onde. En manuel, la fréquence personnelle n'est pas appliquée et la lumière des séances de sommeil ne s'éteint pas d'elle-même.</p>
+<p><b>MANUEL</b> : vous imposez une fréquence fixe avec le curseur « Fixe », de 0,5 à 14 Hz (25 Hz zone bêta ouverte). Pendant la séance, les boutons −0,5 Hz et +0,5 Hz la modifient sans s'arrêter. La séance ne fournit plus que sa couleur et sa forme d'onde. En manuel, la fréquence personnelle n'est pas appliquée et la lumière des séances de sommeil ne s'éteint pas d'elle-même.</p>
 <p>Usage typique : après une séance FIBONACCI, rejouer en manuel le palier qui a donné les images les plus nettes.</p>
 
 <h3>Lumière</h3>
@@ -321,7 +371,7 @@ T = {
 <p>En mode « Essais à l'aveugle », une séance sur deux est tirée au sort en lumière arythmique : même fréquence moyenne, mais intervalles irréguliers. Le son reste rythmique. Vous notez d'abord, la condition n'est révélée qu'ensuite. Au bout d'une vingtaine de séances, la comparaison des notes montre ce que le rythme apporte vraiment, pour vous.</p>""",
 
 "aide.seances": """<h2>Les séances</h2>
-<p>Onze séances, toutes sous 14 Hz. Les tableaux donnent le déroulé pour la durée conseillée.</p>""",
+<p>Onze séances sous 14 Hz, plus CONCENTRATION, réservée à la zone bêta. Les tableaux donnent le déroulé pour la durée conseillée.</p>""",
 
 "aide.securite": """<h2>Sécurité</h2>
 <p>Lumière clignotante rythmée : contre-indiquée en cas d'épilepsie, d'antécédent de convulsions ou de photosensibilité, personnelle ou familiale. Arrêtez au moindre malaise. HYPNOGEN n'est pas un dispositif médical et ne prétend soigner aucun trouble.</p>""",
@@ -385,6 +435,11 @@ S = {
   "desc": "Onze paliers égaux qui suivent la suite de Fibonacci, 1, 2, 3, 5, 8 et 13 Hz, puis redescendent. Les passages d'un palier à l'autre sont adoucis en 150 ms. La suite s'arrête à 13 Hz : le terme suivant, 21 Hz, tomberait dans la plage exclue.",
   "ressenti": "Séance d'exploration : chaque palier a un caractère propre, des flashs isolés à 1 Hz au scintillement rapide de 13 Hz.",
   "conseil": "Utile pour découvrir les fréquences qui vous parlent le plus. Notez dans le journal à quel palier les images étaient les plus nettes, puis essayez cette fréquence en MANUEL."},
+ "CONCENTRATION": {"nom": "CONCENTRATION",
+  "but": "Montée en bêta pour l'éveil et l'attention. Zone bêta.",
+  "desc": "Part de l'alpha haut (12 Hz), monte en douceur jusqu'à un palier à 18,5 Hz, redescend par 15 Hz et finit sur un palier à 12 Hz pour revenir à un éveil calme. Vert, en sinus. C'est la séance du firmware, désactivée sur le boîtier ; ici, au-dessus de 14 Hz, la lumière est bridée (40 %, profondeur 50 %) et la durée est limitée à 20 minutes, pour rester sous 10 minutes de bêta.",
+  "ressenti": "Plutôt tonique et lumineuse : le clignotement rapide se fond en un scintillement, avec peu d'images construites.",
+  "conseil": "À essayer seulement quand les autres séances sont bien tolérées, assis, le matin ou en début d'après-midi. Préférez le son ISOCHRONE : au-dessus de 15 Hz, le battement binaural est mal perçu. Arrêtez au moindre mal de tête."},
 }
 
 if __name__ == "__main__":
