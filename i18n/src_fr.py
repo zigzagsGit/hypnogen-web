@@ -136,8 +136,8 @@ T = {
 "calage.aria": "Retard de la lumière en millisecondes",
 "calage.etape.son": "Étape 1 sur 3 · Le son",
 "calage.son": "Touchez l'écran en même temps que chaque clic, en suivant le rythme. Inutile de regarder l'écran.",
-"calage.etape.image": "Étape 2 sur 3 · La lumière",
-"calage.image": "Même chose avec les flashs : touchez l'écran en même temps que chaque flash. Il n'y a plus de son.",
+"calage.etape.image": "Étape 2 sur 3 · L'image",
+"calage.image": "Une bille descend vers la ligne : touchez l'écran au moment précis où elle la traverse. Il n'y a plus de son.",
 "calage.etape.verif": "Étape 3 sur 3 · Vérification",
 "calage.compte": "{n} appuis sur {total}",
 "calage.irregulier": "Appuis trop irréguliers (± {ms} ms). Recommencez cette étape en suivant le rythme calmement.",
@@ -251,11 +251,11 @@ T = {
 <ol>
 <li>Choisissez la sortie dans la liste et branchez ou connectez le casque correspondant.</li>
 <li>Touchez « Caler cette sortie ». Un clic retentit un peu plus d'une fois par seconde : touchez l'écran en même temps que chaque clic, une douzaine de fois. Les deux premiers appuis ne comptent pas.</li>
-<li>L'écran flashe ensuite au même rythme, sans son : touchez l'écran en même temps que chaque flash, de la même façon.</li>
+<li>L'écran montre ensuite, sans son, des billes qui descendent vers une ligne : touchez l'écran au moment où chaque bille traverse la ligne.</li>
 <li>L'application en déduit le retard du son sur l'image, puis fait clignoter flash et clic ensemble. S'ils ne tombent pas exactement ensemble, ajustez avec le curseur ou les boutons −5 / +5 ms : augmentez si le flash arrive avant le clic, diminuez s'il arrive après.</li>
 <li>Touchez « Enregistrer ».</li>
 </ol>
-<p>Taper deux rythmes est plus facile que de juger à l'œil si un flash et un clic coïncident, et votre temps de réaction, le même dans les deux étapes, s'annule. « Régler à la main » saute la mesure et passe directement au curseur. Refaites le calage si vous changez de casque ou si la synchronisation vous semble dériver. La « latence annoncée par le navigateur » est donnée à titre indicatif : elle est souvent fausse en Bluetooth.</p>
+<p>Taper un rythme est plus facile que de juger à l'œil si un flash et un clic coïncident, et votre temps de réaction, le même dans les deux étapes, s'annule en grande partie. « Régler à la main » saute la mesure et passe directement au curseur. Refaites le calage si vous changez de casque ou si la synchronisation vous semble dériver. La « latence annoncée par le navigateur » est donnée à titre indicatif : elle est souvent fausse en Bluetooth.</p>
 
 <h3>Paramétrage son replié</h3>
 <p>Une fois le premier réglage fait, le bloc son se replie et affiche son résumé. Touchez-le pour l'ouvrir et changer un réglage.</p>""",
