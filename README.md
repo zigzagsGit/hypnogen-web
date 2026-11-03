@@ -35,6 +35,10 @@ Une fois installée, elle s'ouvre en plein écran et fonctionne sans réseau (ap
 - **Zone bêta** (Réglages, fermée par défaut) : s'ouvre après 3 séances notées d'au moins 10 min et un questionnaire
   dédié. Elle donne accès à la séance CONCENTRATION et au manuel jusqu'à 25 Hz. Au-dessus de 14 Hz : lumière ≤ 40 %,
   profondeur ≤ 50 %, sinus imposé, 10 min au plus par séance, lumière coupée si l'écran tourne sous 50 i/s.
+- **Ruban LED** (Réglages, Chrome Android) : le téléphone pilote le ruban de la carte HYPNOGEN par Bluetooth
+  basse consommation, hors ligne. Toute la lumière passe alors par le ruban, l'écran reste noir.
+  Firmware et protocole : dossier [`ruban/`](ruban/README.md).
+- **GAMMA** (zone bêta + ruban) : palier à 40 Hz, son isochrone imposé, lumière ≤ 50 %, 20 min au plus, yeux ouverts.
 - **Calage** : on tape l'écran au rythme des clics, puis au passage de billes sur une ligne ; l'application en déduit
   le retard du son, puis on vérifie flash et clic ensemble (ajustement fin au curseur). Le retard est mémorisé par sortie audio (filaire, chaque casque Bluetooth).
 

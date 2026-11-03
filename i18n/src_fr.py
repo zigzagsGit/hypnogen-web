@@ -223,7 +223,59 @@ T = {
 <li>Ces limites s'installent progressivement entre 14 et 15 Hz : aucune marche de luminosité.</li>
 </ul>
 <h3>Ce qu'elle permet</h3>
-<p>La séance CONCENTRATION (12 → 18,5 → 15 → 12 Hz, 20 minutes au plus) et le mode MANUEL jusqu'à 25 Hz. Au-dessus d'une vingtaine de hertz, le battement binaural devient difficile à percevoir : préférez le son ISOCHRONE. « Refermer » ramène l'application sous 14 Hz.</p>""",
+<p>La séance CONCENTRATION (12 → 18,5 → 15 → 12 Hz, 20 minutes au plus), le mode MANUEL jusqu'à 25 Hz, et la séance GAMMA à 40 Hz sur ruban LED (voir « Ruban et gamma »). Au-dessus d'une vingtaine de hertz, le battement binaural devient difficile à percevoir : préférez le son ISOCHRONE. « Refermer » ramène l'application sous 14 Hz.</p>""",
+
+# ---------- ruban LED et gamma ----------
+"ruban": "Ruban LED",
+"ruban.non": "non connecté",
+"ruban.indispo": "Bluetooth web indisponible : Chrome sur Android requis",
+"ruban.connecter": "Connecter",
+"ruban.deconnecter": "Déconnecter",
+"ruban.connexion": "connexion…",
+"ruban.sync": "connecté · synchronisation…",
+"ruban.pret": "connecté · synchro ± {ms} ms",
+"ruban.note": "Ruban connecté : toute la lumière passe par le ruban, l'écran reste noir pendant la séance.",
+"ruban.erreur": "Connexion au ruban impossible : {e}",
+"ruban.attente": "Le ruban termine sa synchronisation. Réessayez dans une seconde.",
+"sortie.retard.ruban": "ruban : {ms} ms",
+"calage.titre.ruban": "Calage du ruban : {nom}",
+"calage.etape.ruban": "Étape 2 sur 3 · Le ruban",
+"calage.ruban": "Le ruban flashe à intervalles réguliers : touchez l'écran en même temps que chaque flash. Il n'y a plus de son.",
+"hud.ruban": "ruban",
+"hud.ruban.perdu": "Liaison avec le ruban perdue : lumière coupée, reconnexion en cours. Le son continue.",
+"hud.gamma": "gamma",
+"bande.gamma": "gamma",
+"journal.ruban": "ruban",
+"gamma.titre": "Avant la séance gamma (40 Hz)",
+"gamma.texte": """<ul>
+<li><b>Yeux ouverts</b> : au-delà de 25 Hz, la lumière se fond derrière les paupières.</li>
+<li>Ruban tourné vers un mur ou le plafond, jamais face aux yeux. Regard posé, sans fixer le ruban.</li>
+<li>Son isochrone imposé, 20 minutes au plus, lumière limitée à 50 %.</li>
+<li>Arrêtez au moindre mal de tête, vertige ou gêne visuelle. Un appui sur l'écran coupe le ruban aussitôt.</li>
+</ul>""",
+"gamma.lancer": "Lancer",
+"gamma.ruban": "La séance GAMMA passe uniquement par le ruban LED : un écran de téléphone ne peut pas produire 40 Hz proprement. Connectez le ruban dans Réglages, puis relancez.",
+"som.ruban": "Ruban et gamma",
+"aide.ruban": """<h2>Ruban LED et gamma</h2>
+<p>Le téléphone peut piloter le ruban LED de la carte HYPNOGEN, flashée avec le croquis <b>HypnoGenRuban</b>. Le téléphone garde l'interface et le son ; la carte ne fait que la lumière. La liaison est un Bluetooth basse consommation direct : <b>tout fonctionne hors ligne</b>, même en mode avion avec le Bluetooth réactivé.</p>
+<h3>Connecter</h3>
+<ul>
+<li>Réglages → Ruban LED → Connecter, puis choisir <b>HYPNOGEN-RUBAN</b> dans la liste. Chrome demande ce choix à chaque lancement de l'application.</li>
+<li>La première fois, autorisez Chrome à accéder aux « Appareils à proximité ».</li>
+<li>Une fois connecté, toute la lumière passe par le ruban et l'écran reste noir. Le témoin de la carte clignote en attente et reste allumé une fois connecté.</li>
+<li>Bluetooth web : Chrome sur Android. Safari sur iPhone ne le propose pas.</li>
+</ul>
+<h3>Synchronisation et calage</h3>
+<p>Le téléphone n'envoie pas un ordre par flash : il envoie la phase du battement 0,8 s à l'avance, et la carte calcule la lumière elle-même, sur une horloge commune recalée chaque seconde (précision affichée dans Réglages). Le retard du ruban se cale comme celui de l'écran : ruban connecté, « Caler cette sortie » remplace l'étape des billes par des flashs du ruban. Il est mémorisé à part pour chaque sortie audio.</p>
+<h3>La séance GAMMA</h3>
+<p>Palier de 40 Hz, en impulsions, blanc chaud, 15 minutes conseillées, 20 au plus. Elle demande la zone bêta ouverte et le ruban connecté. Le son est forcément isochrone (le battement binaural ne porte pas 40 Hz). Elle se pratique <b>les yeux ouverts</b>, le ruban tourné vers un mur.</p>
+<h3>Sécurités du ruban</h3>
+<ul>
+<li>La carte applique ses propres limites, quoi que demande le téléphone : puissance plafonnée, bridage de la zone bêta, <b>lumière coupée entre 25 et 35 Hz</b> et au-delà de 45 Hz, gamma à 50 % au plus.</li>
+<li>Elle déduit la fréquence de la phase qu'elle reçoit : ces limites ne dépendent pas d'une valeur annoncée.</li>
+<li>Liaison perdue ou nœuds manquants : extinction en 0,3 s. Le téléphone retente la connexion seul.</li>
+<li>Un appui sur l'écran coupe le ruban en 30 ms, comme l'écran.</li>
+</ul>""",
 
 # ---------- page d'aide ----------
 "aide.principe": """<h2>Le principe</h2>
@@ -241,6 +293,7 @@ T = {
 <tr><td>Alpha</td><td>8 – 13 Hz</td><td>éveil détendu, yeux fermés</td></tr>
 <tr><td>Bêta bas</td><td>13 – 14 Hz</td><td>éveil attentif (plafond par défaut)</td></tr>
 <tr class="exclu"><td>Bêta</td><td>15 – 25 Hz</td><td>éveil actif, concentration. Pic de sensibilité photo-épileptique : fermée par défaut, lumière bridée une fois ouverte</td></tr>
+<tr><td>Gamma</td><td>35 – 45 Hz</td><td>ruban LED seulement, yeux ouverts (séance GAMMA à 40 Hz). Entre 25 et 35 Hz, la lumière reste coupée</td></tr>
 </tbody></table></div>
 <p>La valeur 7,83 Hz, qui revient dans plusieurs séances, est la fréquence de la résonance de Schumann. Elle sert ici de point d'appui à la frontière alpha–thêta.</p>""",
 
@@ -371,7 +424,7 @@ T = {
 <p>En mode « Essais à l'aveugle », une séance sur deux est tirée au sort en lumière arythmique : même fréquence moyenne, mais intervalles irréguliers. Le son reste rythmique. Vous notez d'abord, la condition n'est révélée qu'ensuite. Au bout d'une vingtaine de séances, la comparaison des notes montre ce que le rythme apporte vraiment, pour vous.</p>""",
 
 "aide.seances": """<h2>Les séances</h2>
-<p>Onze séances sous 14 Hz, plus CONCENTRATION, réservée à la zone bêta. Les tableaux donnent le déroulé pour la durée conseillée.</p>""",
+<p>Onze séances sous 14 Hz, plus CONCENTRATION et GAMMA, réservées à la zone bêta. Les tableaux donnent le déroulé pour la durée conseillée.</p>""",
 
 "aide.securite": """<h2>Sécurité</h2>
 <p>Lumière clignotante rythmée : contre-indiquée en cas d'épilepsie, d'antécédent de convulsions ou de photosensibilité, personnelle ou familiale. Arrêtez au moindre malaise. HYPNOGEN n'est pas un dispositif médical et ne prétend soigner aucun trouble.</p>""",
@@ -435,6 +488,11 @@ S = {
   "desc": "Onze paliers égaux qui suivent la suite de Fibonacci, 1, 2, 3, 5, 8 et 13 Hz, puis redescendent. Les passages d'un palier à l'autre sont adoucis en 150 ms. La suite s'arrête à 13 Hz : le terme suivant, 21 Hz, tomberait dans la plage exclue.",
   "ressenti": "Séance d'exploration : chaque palier a un caractère propre, des flashs isolés à 1 Hz au scintillement rapide de 13 Hz.",
   "conseil": "Utile pour découvrir les fréquences qui vous parlent le plus. Notez dans le journal à quel palier les images étaient les plus nettes, puis essayez cette fréquence en MANUEL."},
+ "GAMMA": {"nom": "GAMMA",
+  "but": "Palier à 40 Hz sur ruban LED, yeux ouverts. Zone bêta.",
+  "desc": "Un seul palier à 40 Hz, en impulsions, blanc chaud, avec un son isochrone à la même fréquence. La séance démarre directement à 40 Hz, en fondu de lumière : elle ne traverse jamais la zone 15–35 Hz. Lumière limitée à 50 %, 20 minutes au plus. Elle passe uniquement par le ruban LED.",
+  "ressenti": "La lumière ne clignote pas franchement : elle paraît vibrer ou scintiller. Le son ressemble à un bourdonnement rapide.",
+  "conseil": "Yeux ouverts, ruban tourné vers un mur, assis dans une pièce peu éclairée. Les études sur la stimulation à 40 Hz sont des travaux de recherche : aucun effet n'est promis. Arrêtez au moindre mal de tête."},
  "CONCENTRATION": {"nom": "CONCENTRATION",
   "but": "Montée en bêta pour l'éveil et l'attention. Zone bêta.",
   "desc": "Part de l'alpha haut (12 Hz), monte en douceur jusqu'à un palier à 18,5 Hz, redescend par 15 Hz et finit sur un palier à 12 Hz pour revenir à un éveil calme. Vert, en sinus. C'est la séance du firmware, désactivée sur le boîtier ; ici, au-dessus de 14 Hz, la lumière est bridée (40 %, profondeur 50 %) et la durée est limitée à 20 minutes, pour rester sous 10 minutes de bêta.",
