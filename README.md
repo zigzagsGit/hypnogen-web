@@ -1,11 +1,15 @@
 # HYPNOGEN
 
-Application web installable (Android et iPhone) qui reprend le générateur hypnagogique HYPNOGEN
+Application web installable (Android, iPhone, PC Windows, Mac et Linux) qui reprend le générateur hypnagogique HYPNOGEN
 (ESP32) : son binaural sur une porteuse de 200 Hz et lumière clignotante plein écran,
 synchronisés sur une même phase de battement.
 
-Tout se passe sur le téléphone. Les réglages et les calages de latence sont enregistrés dans le
-navigateur du téléphone.
+Tout se passe sur l'appareil. Les réglages et les calages de latence sont enregistrés dans son
+navigateur.
+
+L'application reconnaît seule la plate-forme (système, téléphone ou ordinateur, navigateur, application
+installée ou non) et s'y adapte : commandes tactiles ou clavier et souris, conseils de réglage propres au
+système, section « Votre appareil » dans l'aide. La plate-forme détectée est affichée sous « Avant de commencer ».
 
 > **Avertissement** : lumière clignotante rythmée, contre-indiquée en cas d'épilepsie ou de
 > photosensibilité. Par défaut, toutes les séances restent sous 14 Hz ; la zone bêta (15–25 Hz) ne s'ouvre
@@ -19,23 +23,28 @@ L'application est publiée par GitHub Pages à l'adresse :
 https://zigzagsgit.github.io/hypnogen-web/
 ```
 
-### L'installer sur le téléphone
+### L'installer
 
 - **Android (Chrome)** : ouvrir l'adresse, puis menu ⋮ → « Installer l'application » (ou « Ajouter à l'écran d'accueil »).
 - **iPhone (Safari)** : ouvrir l'adresse, bouton Partager → « Sur l'écran d'accueil ».
+- **PC Windows, Linux, Mac (Chrome ou Edge)** : icône d'installation dans la barre d'adresse. L'application s'ouvre dans sa propre fenêtre.
+- **Mac (Safari)** : Fichier → « Ajouter au Dock ». Firefox n'installe pas les applications web, mais l'application y fonctionne dans un onglet.
 
 Une fois installée, elle s'ouvre en plein écran et fonctionne sans réseau (après une première ouverture avec réseau).
 
 ### Utilisation
 
 - **Casque stéréo obligatoire** : le battement binaural n'existe pas sur un haut-parleur.
-- Luminosité au maximum, luminosité automatique, True Tone / Night Shift ou Confort des yeux coupés.
+- Luminosité au maximum, luminosité automatique, True Tone / Night Shift, Confort des yeux ou éclairage nocturne coupés.
+- **Sur ordinateur** : yeux fermés face à l'écran, à 40–60 cm ; la fenêtre passe en plein écran pendant la séance.
+  Espace (ou un clic) coupe la lumière, R la rallume, ← → changent la fréquence de ±0,5 Hz en manuel, Échap arrête
+  (quitter le plein écran arrête aussi la séance). Au calage et à la mesure, Espace remplace l'appui sur l'écran.
 - 11 séances à profil (RELAXATION, HYPNAGOGIE, ENDORMISSEMENT…), durée de 10 à 60 min.
 - Mode **PROFIL** (la séance pilote la fréquence) ou **MANUEL** (fréquence fixe de 0,5 à 14 Hz).
 - **Zone bêta** (Réglages, fermée par défaut) : s'ouvre après 3 séances notées d'au moins 10 min et un questionnaire
   dédié. Elle donne accès à la séance CONCENTRATION et au manuel jusqu'à 25 Hz. Au-dessus de 14 Hz : lumière ≤ 40 %,
   profondeur ≤ 50 %, sinus imposé, 10 min au plus par séance, lumière coupée si l'écran tourne sous 50 i/s.
-- **Ruban LED** (Réglages, Chrome Android) : le téléphone pilote le ruban de la carte HYPNOGEN par Bluetooth
+- **Ruban LED** (Réglages, Chrome ou Edge sur Android, Windows, Mac ; Chrome avec option expérimentale sous Linux ; jamais sur iPhone) : le téléphone pilote le ruban de la carte HYPNOGEN par Bluetooth
   basse consommation, hors ligne. Toute la lumière passe alors par le ruban, l'écran reste noir.
   Firmware et protocole : dossier [`ruban/`](ruban/README.md).
 - **GAMMA** (zone bêta + ruban) : palier à 40 Hz, son isochrone imposé, lumière ≤ 50 %, 20 min au plus, yeux ouverts.

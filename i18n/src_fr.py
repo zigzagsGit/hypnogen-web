@@ -428,6 +428,103 @@ T = {
 
 "aide.securite": """<h2>Sécurité</h2>
 <p>Lumière clignotante rythmée : contre-indiquée en cas d'épilepsie, d'antécédent de convulsions ou de photosensibilité, personnelle ou familiale. Arrêtez au moindre malaise. HYPNOGEN n'est pas un dispositif médical et ne prétend soigner aucun trouble.</p>""",
+
+# ---------- plates-formes (v1.10) : variantes clé@os puis clé@pc / clé@mobile, section « Votre appareil » ----------
+"version.installee": "application installée",
+"som.appareil": "Votre appareil",
+"hud.touches": "",
+"hud.touches@pc": "Espace : couper la lumière · R : la reprendre · ← → : ±0,5 Hz en manuel · Échap : arrêter",
+"hud.appui@pc": "Un clic ou la barre d'espace éteint la lumière aussitôt",
+"hud.mesure@pc": "Yeux fermés. Appuyez sur Espace (ou cliquez) chaque fois que les motifs sont les plus nets.",
+"hud.lent@android": "Écran limité à 30 images par seconde : les flashs rapides seront irréguliers. Désactivez le mode économie d'énergie.",
+"hud.lent@pc": "Écran limité à 30 images par seconde : les flashs rapides seront irréguliers. Branchez l'ordinateur sur secteur, quittez le mode économie d'énergie et fermez les onglets lourds.",
+"calage.son@pc": "Appuyez sur Espace (ou cliquez) en même temps que chaque clic, en suivant le rythme. Inutile de regarder l'écran.",
+"calage.image@pc": "Une bille descend vers la ligne : appuyez sur Espace (ou cliquez) au moment précis où elle la traverse. Il n'y a plus de son.",
+"calage.ruban@pc": "Le ruban flashe à intervalles réguliers : appuyez sur Espace (ou cliquez) en même temps que chaque flash. Il n'y a plus de son.",
+"ruban.indispo@ios": "Bluetooth web absent sur iPhone et iPad : ruban indisponible",
+"ruban.indispo@android": "Bluetooth web indisponible : ouvrez l'application dans Chrome",
+"ruban.indispo@pc": "Bluetooth web indisponible : ouvrez l'application dans Chrome ou Edge",
+"ruban.indispo@linux": "Bluetooth web indisponible : Chrome requis, avec chrome://flags/#enable-experimental-web-platform-features activé",
+"gamma.ruban@pc": "La séance GAMMA passe uniquement par le ruban LED : un écran ne peut pas produire 40 Hz proprement. Connectez le ruban dans Réglages, puis relancez.",
+"avant.liste@pc": "<li>Casque stéréo obligatoire en binaural : le battement n'existe pas sur des haut-parleurs.</li><li>Luminosité de l'écran au maximum, pièce peu éclairée.</li><li>Yeux fermés, face à l'écran, à 40–60 cm. La fenêtre passe en plein écran pendant la séance.</li><li>Calez chaque sortie audio une fois (casque filaire, casque Bluetooth) : sa latence est mémorisée.</li>",
+"avant.os": "",
+"avant.os@pc": "<li>Coupez le filtre de lumière bleue et la luminosité automatique de l'écran, et suspendez les notifications.</li>",
+"avant.os@win": "<li>Windows : coupez l'éclairage nocturne et la luminosité automatique (Paramètres → Système → Écran), et activez « Ne pas déranger ».</li>",
+"avant.os@mac": "<li>Mac : coupez Night Shift, True Tone et la luminosité automatique (Réglages Système → Moniteurs), et activez la Concentration « Ne pas déranger ».</li>",
+"avant.os@linux": "<li>Linux : coupez la lumière nocturne et la gradation automatique de l'écran, et suspendez les notifications.</li>",
+"avant.veille": "<li>Ce navigateur ne sait pas empêcher la mise en veille de l'écran : réglez-la sur une durée plus longue que la séance.</li>",
+"aide.appareil.titre": "Votre appareil : {os}",
+"aide.appareil.detecte": "Reconnu automatiquement : {os}, navigateur {nav}. L'application adapte ses commandes, ses conseils et cette page à cet appareil.",
+"aide.appareil.cmd": "",
+"aide.appareil.cmd@pc": """<h3>Clavier et souris</h3>
+<ul>
+<li><b>Espace</b> ou un clic dans la lumière : la lumière s'éteint aussitôt, le son continue. <b>R</b> la rallume.</li>
+<li><b>Échap</b> arrête la séance. Quitter le plein écran l'arrête aussi.</li>
+<li><b>←</b> et <b>→</b> : −0,5 et +0,5 Hz en MANUEL.</li>
+<li>Calage et mesure de la fréquence personnelle : <b>Espace</b> marque l'instant, plus régulièrement qu'un clic. Partout où l'aide dit « touchez l'écran », appuyez sur Espace ou cliquez.</li>
+<li>Bouger la souris affiche le bandeau ; le pointeur disparaît avec lui.</li>
+</ul>
+<h3>Placement</h3>
+<ul>
+<li>Yeux fermés, face à l'écran, à 40–60 cm. Plus l'écran est grand, plus la lumière couvre le champ visuel : commencez avec la lumière à 70 % ou moins.</li>
+</ul>""",
+"aide.appareil.os": """<h3>Installer</h3>
+<ul><li>Chrome ou Edge : icône d'installation dans la barre d'adresse. L'application fonctionne ensuite hors ligne.</li></ul>
+<h3>Réglages</h3>
+<ul><li>Luminosité au maximum, luminosité automatique et filtre de lumière bleue coupés, notifications suspendues.</li></ul>
+<h3>Ruban LED</h3>
+<ul><li>Il faut un navigateur qui propose le Bluetooth web : Chrome ou Edge.</li></ul>""",
+"aide.appareil.os@ios": """<h3>Installer</h3>
+<ul><li>Dans Safari : bouton Partager → « Sur l'écran d'accueil ». L'application s'ouvre ensuite sans barre d'adresse et fonctionne hors ligne.</li></ul>
+<h3>Réglages</h3>
+<ul>
+<li>Coupez True Tone, Night Shift et la luminosité automatique : ils faussent les couleurs et la luminosité.</li>
+<li>Si le son ne sort pas, vérifiez le mode silencieux.</li>
+<li>Le mode économie d'énergie limite l'écran à 30 images par seconde : coupez-le.</li>
+<li>Safari ne passe pas en plein écran sur iPhone : installez l'application pour masquer la barre d'adresse.</li>
+</ul>
+<h3>Ruban LED</h3>
+<ul><li>Indisponible : aucun navigateur d'iPhone ou d'iPad ne propose le Bluetooth web.</li></ul>""",
+"aide.appareil.os@android": """<h3>Installer</h3>
+<ul><li>Dans Chrome : menu ⋮ → « Installer l'application » (ou « Ajouter à l'écran d'accueil »).</li></ul>
+<h3>Réglages</h3>
+<ul>
+<li>Coupez la luminosité adaptative et le Confort des yeux (Samsung) ou le filtre de lumière bleue : ils faussent couleurs et luminosité.</li>
+<li>Le mode économie d'énergie peut limiter l'écran à 30 images par seconde : coupez-le pendant la séance.</li>
+<li>Activez « Ne pas déranger » : aucune notification ne doit allumer l'écran.</li>
+</ul>
+<h3>Ruban LED</h3>
+<ul><li>Avec Chrome. La première fois, autorisez Chrome à accéder aux « Appareils à proximité ».</li></ul>""",
+"aide.appareil.os@win": """<h3>Installer</h3>
+<ul><li>Chrome ou Edge : icône d'installation à droite de la barre d'adresse (ou menu → « Installer HYPNOGEN »). L'application s'ouvre dans sa propre fenêtre et fonctionne hors ligne.</li></ul>
+<h3>Réglages de Windows</h3>
+<ul>
+<li>Paramètres → Système → Écran : coupez l'éclairage nocturne et la luminosité automatique ou adaptative au contenu.</li>
+<li>Activez « Ne pas déranger » : une notification par-dessus le plein écran gâcherait la séance.</li>
+<li>Portable : branchez-le sur secteur, l'économiseur de batterie peut ralentir l'affichage.</li>
+<li>Casque Bluetooth : comptez souvent 150 à 250 ms de retard, à caler une fois. Si une application utilise son micro, Windows le passe en mode « mains libres », en mono : le battement binaural disparaît. Choisissez la sortie « Casque » ou « Stéréo », pas « Mains libres ».</li>
+</ul>
+<h3>Ruban LED</h3>
+<ul><li>Chrome ou Edge, Bluetooth de l'ordinateur activé. Firefox ne propose pas le Bluetooth web.</li></ul>""",
+"aide.appareil.os@mac": """<h3>Installer</h3>
+<ul><li>Safari : Fichier → « Ajouter au Dock ». Chrome ou Edge : icône d'installation dans la barre d'adresse. L'application s'ouvre dans sa propre fenêtre et fonctionne hors ligne.</li></ul>
+<h3>Réglages du Mac</h3>
+<ul>
+<li>Réglages Système → Moniteurs : coupez True Tone, Night Shift et « Ajuster automatiquement la luminosité ».</li>
+<li>Activez la Concentration « Ne pas déranger ».</li>
+<li>Portable : branchez-le sur secteur, le mode économie d'énergie peut ralentir l'affichage.</li>
+</ul>
+<h3>Ruban LED</h3>
+<ul><li>Chrome ou Edge uniquement : Safari et Firefox ne proposent pas le Bluetooth web. La première fois, autorisez le navigateur dans Réglages Système → Confidentialité et sécurité → Bluetooth.</li></ul>""",
+"aide.appareil.os@linux": """<h3>Installer</h3>
+<ul><li>Chrome, Chromium ou Edge : icône d'installation dans la barre d'adresse. Firefox n'installe pas les applications web, mais l'application y fonctionne dans un onglet.</li></ul>
+<h3>Réglages</h3>
+<ul>
+<li>Coupez la lumière nocturne et la gradation automatique de l'écran, suspendez les notifications.</li>
+<li>Si l'écran s'éteint pendant la séance, allongez le délai de mise en veille.</li>
+</ul>
+<h3>Ruban LED</h3>
+<ul><li>Chrome, après avoir activé chrome://flags/#enable-experimental-web-platform-features. Le service Bluetooth (BlueZ) doit tourner.</li></ul>""",
 }
 
 # ---------- séances : nom affiché, accroche, déroulé, ressenti, conseils ----------
