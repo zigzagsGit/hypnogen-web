@@ -40,6 +40,9 @@ Une fois installée, elle s'ouvre en plein écran et fonctionne sans réseau (ap
   Espace (ou un clic) coupe la lumière, R la rallume, ← → changent la fréquence de ±0,5 Hz en manuel, Échap arrête
   (quitter le plein écran arrête aussi la séance). Au calage et à la mesure, Espace remplace l'appui sur l'écran.
 - 11 séances à profil (RELAXATION, HYPNAGOGIE, ENDORMISSEMENT…), durée de 10 à 60 min.
+- 4 **méditations en musique** (SOUFFLE, TEMPLE, OCÉAN, AURORE) : nappe, bols chantants, mélodie et houle générés en
+  direct, accordés sur la porteuse ; en binaural la nappe porte le même battement, en phase avec la lumière. SOUFFLE
+  guide la respiration (6 par minute), le son et la lumière respirent avec elle. Curseur **Musique** dans « Paramétrage son ».
 - Mode **PROFIL** (la séance pilote la fréquence) ou **MANUEL** (fréquence fixe de 0,5 à 14 Hz).
 - **Zone bêta** (Réglages, fermée par défaut) : s'ouvre après 3 séances notées d'au moins 10 min et un questionnaire
   dédié. Elle donne accès à la séance CONCENTRATION et au manuel jusqu'à 25 Hz. Au-dessus de 14 Hz : lumière ≤ 40 %,
@@ -58,6 +61,7 @@ Une fois installée, elle s'ouvre en plein écran et fonctionne sans réseau (ap
 | `index.html` | L'application complète (interface, moteur de séances, audio, lumière). |
 | `manifest.webmanifest` | Nom, couleurs et icônes pour l'installation. |
 | `sw.js` | Service worker : fonctionnement hors ligne et mises à jour. |
+| `test/musique.mjs` | Contrôle du moteur de musique hors navigateur : `node test/musique.mjs [dossier-wav]`. |
 | `icon-*.png`, `apple-touch-icon.png` | Icônes de l'application (Android, iPhone). |
 
 ## Publier une nouvelle version

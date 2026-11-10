@@ -55,6 +55,18 @@ T = {
 "son.titre": "Paramétrage son",
 "son.premier": "Premier réglage : choisissez le type de son, réglez le volume, puis calez votre sortie audio. Ce bloc se repliera ensuite et s'ouvrira à la demande.",
 "volume": "Volume",
+"musique": "Musique",
+"musique.note": "Nappes, bols chantants et mélodie générés en direct et accordés sur la porteuse, dans les méditations SOUFFLE, TEMPLE, OCÉAN et AURORE. À 0 %, battement seul.",
+"fiche.musique": "musique",
+"fiche.souffle": "respiration",
+"fiche.souffle.v": "{n} par minute",
+"mus.souffle": "nappe et houle qui respirent",
+"mus.temple": "bols chantants",
+"mus.ocean": "océan profond",
+"mus.aurore": "aube lumineuse",
+"coul.turquoise": "turquoise",
+"coul.bleu": "bleu",
+"coul.indigo": "indigo",
 "son": "Son",
 "son.type": "Type de son",
 "son.binaural": "BINAURAL",
@@ -341,6 +353,9 @@ T = {
 <h3>Volume</h3>
 <p>De 0 à 100 % (55 % par défaut). La courbe est progressive : les petites valeurs restent fines à régler, ce qui compte pour dormir. Le son monte en 20 secondes au début de la séance et s'éteint en 15 secondes à la fin : ne réglez pas le volume du téléphone au tout début, attendez qu'il soit monté. Gardez un niveau modéré, surtout pour les séances longues.</p>
 
+<h3>Musique</h3>
+<p>De 0 à 100 % (70 % par défaut). Les quatre méditations SOUFFLE, TEMPLE, OCÉAN et AURORE ont une musique composée en direct par l'application : accords tenus, bols chantants, mélodie clairsemée, houle, dans une réverbération. Elle ne se répète jamais à l'identique. Tout est accordé sur la porteuse, qui devient une note de chaque accord. En binaural, chaque note de la nappe porte le même battement que la porteuse, en phase avec la lumière ; les bols et les notes de la mélodie tombent sur un flash. Plus la séance descend, plus le timbre s'assombrit et plus la musique s'espace. Le curseur règle la musique par rapport au battement ; le volume général agit sur les deux. Les autres séances restent sans musique.</p>
+
 <h3>Son : BINAURAL ou ISOCHRONE</h3>
 <p><b>Binaural</b> : chaque oreille reçoit un son pur légèrement différent ; l'écart entre les deux est la fréquence de la séance. C'est le mode d'origine du HYPNOGEN. Il exige un casque ou des écouteurs stéréo ; le sens gauche/droite n'a pas d'importance.</p>
 <p><b>Isochrone</b> : un seul son, dont le volume monte et descend au rythme de la séance, crête du son sur le flash. Le battement est plus marqué et fonctionne sur haut-parleur, mais il est aussi plus présent, ce qui peut gêner pour dormir.</p>
@@ -424,7 +439,7 @@ T = {
 <p>En mode « Essais à l'aveugle », une séance sur deux est tirée au sort en lumière arythmique : même fréquence moyenne, mais intervalles irréguliers. Le son reste rythmique. Vous notez d'abord, la condition n'est révélée qu'ensuite. Au bout d'une vingtaine de séances, la comparaison des notes montre ce que le rythme apporte vraiment, pour vous.</p>""",
 
 "aide.seances": """<h2>Les séances</h2>
-<p>Onze séances sous 14 Hz, plus CONCENTRATION et GAMMA, réservées à la zone bêta. Les tableaux donnent le déroulé pour la durée conseillée.</p>""",
+<p>Quinze séances sous 14 Hz, dont quatre méditations en musique (SOUFFLE, TEMPLE, OCÉAN, AURORE), plus CONCENTRATION et GAMMA, réservées à la zone bêta. Les tableaux donnent le déroulé pour la durée conseillée.</p>""",
 
 "aide.securite": """<h2>Sécurité</h2>
 <p>Lumière clignotante rythmée : contre-indiquée en cas d'épilepsie, d'antécédent de convulsions ou de photosensibilité, personnelle ou familiale. Arrêtez au moindre malaise. HYPNOGEN n'est pas un dispositif médical et ne prétend soigner aucun trouble.</p>""",
@@ -595,6 +610,26 @@ S = {
   "desc": "Part de l'alpha haut (12 Hz), monte en douceur jusqu'à un palier à 18,5 Hz, redescend par 15 Hz et finit sur un palier à 12 Hz pour revenir à un éveil calme. Vert, en sinus. C'est la séance du firmware, désactivée sur le boîtier ; ici, au-dessus de 14 Hz, la lumière est bridée (40 %, profondeur 50 %) et la durée est limitée à 20 minutes, pour rester sous 10 minutes de bêta.",
   "ressenti": "Plutôt tonique et lumineuse : le clignotement rapide se fond en un scintillement, avec peu d'images construites.",
   "conseil": "À essayer seulement quand les autres séances sont bien tolérées, assis, le matin ou en début d'après-midi. Préférez le son ISOCHRONE : au-dessus de 15 Hz, le battement binaural est mal perçu. Arrêtez au moindre mal de tête."},
+ "SOUFFLE": {"nom": "SOUFFLE",
+  "but": "Méditation guidée par la respiration, six souffles par minute, en musique.",
+  "desc": "Respiration guidée à six cycles par minute (4 s d'inspiration, 6 s d'expiration) : la musique enfle quand on inspire et reflue quand on expire, comme une houle, et la lumière respire avec elle. La fréquence reste dans l'alpha, de 10 à 8,5 Hz, glisse vers 7 Hz pour la partie centrale, puis remonte à 8,5 Hz pour finir clair. Turquoise, en sinus ; accords majeurs, mélodie clairsemée.",
+  "ressenti": "Le rythme du souffle se cale de lui-même sur la houle au bout de quelques cycles. Calme posé, sans somnolence, avec une lumière douce et enveloppante.",
+  "conseil": "La meilleure porte d'entrée vers les méditations en musique. Assis, épaules relâchées : inspirez par le nez quand le son monte, expirez lentement quand il redescend, sans forcer. 15 min conseillées ; à tout moment de la journée."},
+ "TEMPLE": {"nom": "TEMPLE",
+  "but": "Descente vers le thêta au son des bols chantants.",
+  "desc": "Un bourdon grave et modal, des accords mineurs qui changent lentement, et des bols chantants frappés toutes les 15 à 30 secondes, chacun sur un flash, qui résonnent longuement. La fréquence passe de 10 Hz à un palier à 7,83 Hz, descend jusqu'à un long palier à 4,5 Hz, en plein thêta, puis remonte à 6 Hz. Indigo, en sinus.",
+  "ressenti": "Chaque bol sert de point d'appui à l'attention ; entre deux frappes, le silence intérieur s'élargit. Le palier à 4,5 Hz est souvent riche en images floues et lentes.",
+  "conseil": "Pour une méditation assise de 25 minutes, dos droit. Si l'esprit s'égare, revenez simplement au prochain bol. Casque recommandé : en binaural, la nappe porte elle aussi le battement."},
+ "OCÉAN": {"nom": "OCÉAN",
+  "but": "Plongée lente vers le thêta profond, bercée par la houle.",
+  "desc": "Une houle continue, des accords graves et sombres qui durent une minute chacun, de rares bols lointains. La fréquence descend de 10 à 3,5 Hz, à la frontière thêta–delta, s'y tient sur la plus longue phase, puis remonte à 5 Hz pour ne pas finir au plus bas. Bleu, en sinus. La musique s'assombrit et s'espace à mesure qu'on descend.",
+  "ressenti": "Sensation d'immersion, de flottement, parfois de perte des repères du corps. Peu d'images nettes : plutôt un vide calme et dense.",
+  "conseil": "Allongé ou bien calé, 30 minutes, sans contrainte horaire derrière. La séance descend bas : prenez deux ou trois minutes pour revenir avant de vous lever, et jamais avant de conduire."},
+ "AURORE": {"nom": "AURORE",
+  "but": "Méditation de remontée, du thêta vers un alpha clair, en musique lumineuse.",
+  "desc": "Le parcours inverse des autres méditations : départ en thêta à 6 Hz, puis remontée progressive jusqu'à 10,5 Hz, tenus en fin de séance. Or, en sinus. Accords lydiens qui s'éclaircissent, mélodie de plus en plus présente à mesure que la fréquence monte, bols réguliers.",
+  "ressenti": "On part d'un état intérieur et l'on revient peu à peu vers un éveil calme et net, l'esprit dégagé. La musique devient plus claire et plus vivante au fil de la séance.",
+  "conseil": "Le matin, au réveil ou avant de commencer la journée, ou pour clore une séance profonde. Assis. 20 min conseillées."},
 }
 
 if __name__ == "__main__":
