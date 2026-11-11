@@ -53,7 +53,7 @@ T = {
 "perso.mesurer": "Mesurer",
 "perso.recaler": "Recaler l'alpha",
 "son.titre": "Paramétrage son",
-"son.premier": "Premier réglage : choisissez le type de son, réglez le volume, puis calez votre sortie audio. Ce bloc se repliera ensuite et s'ouvrira à la demande.",
+"son.premier": "Premier réglage : choisissez le type de son, réglez le volume, puis calez votre sortie audio juste en dessous et touchez « Réglage terminé ». Cette page se rouvre ensuite par le bouton Paramètres.",
 "volume": "Volume",
 "musique": "Musique",
 "musique.note": "Nappes, bols chantants et mélodie générés en direct et accordés sur la porteuse, dans les méditations SOUFFLE, TEMPLE, OCÉAN et AURORE. À 0 %, battement seul.",
@@ -77,7 +77,7 @@ T = {
 "son.note.iso": "Isochrone : le volume pulse en phase avec la lumière. Fonctionne aussi sur haut-parleur.",
 "son.fini": "Réglage terminé",
 "porteuse": "Porteuse",
-"resume": "{son} {c} Hz · volume {v} · {sortie} {ms} ms",
+"resume": "{son} {c} Hz · volume {v} · musique {m} · {sortie} {ms} ms",
 "etiquette": "web · v{v} · {son} {c} Hz",
 "etiq.bin": "binaural",
 "etiq.iso": "isochrone",
@@ -219,7 +219,7 @@ T = {
 "journal.beta": "bêta {m} min",
 "som.beta": "Zone bêta",
 "aide.beta": """<h2>La zone bêta (15–25 Hz)</h2>
-<p>Par défaut, HYPNOGEN ne dépasse jamais 14 Hz. La zone 15–25 Hz, celle du bêta, est aussi le pic de sensibilité photo-épileptique : elle reste fermée tant que vous ne l'ouvrez pas vous-même, dans Réglages → Zone bêta.</p>
+<p>Par défaut, HYPNOGEN ne dépasse jamais 14 Hz. La zone 15–25 Hz, celle du bêta, est aussi le pic de sensibilité photo-épileptique : elle reste fermée tant que vous ne l'ouvrez pas vous-même, dans Paramètres → Zone bêta.</p>
 <h3>Conditions d'ouverture</h3>
 <ul>
 <li>avoir accepté l'avertissement de sécurité général ;</li>
@@ -266,19 +266,19 @@ T = {
 <li>Arrêtez au moindre mal de tête, vertige ou gêne visuelle. Un appui sur l'écran coupe le ruban aussitôt.</li>
 </ul>""",
 "gamma.lancer": "Lancer",
-"gamma.ruban": "La séance GAMMA passe uniquement par le ruban LED : un écran de téléphone ne peut pas produire 40 Hz proprement. Connectez le ruban dans Réglages, puis relancez.",
+"gamma.ruban": "La séance GAMMA passe uniquement par le ruban LED : un écran de téléphone ne peut pas produire 40 Hz proprement. Connectez le ruban dans Paramètres, puis relancez.",
 "som.ruban": "Ruban et gamma",
 "aide.ruban": """<h2>Ruban LED et gamma</h2>
 <p>Le téléphone peut piloter le ruban LED de la carte HYPNOGEN, flashée avec le croquis <b>HypnoGenRuban</b>. Le téléphone garde l'interface et le son ; la carte ne fait que la lumière. La liaison est un Bluetooth basse consommation direct : <b>tout fonctionne hors ligne</b>, même en mode avion avec le Bluetooth réactivé.</p>
 <h3>Connecter</h3>
 <ul>
-<li>Réglages → Ruban LED → Connecter, puis choisir <b>HYPNOGEN-RUBAN</b> dans la liste. Chrome demande ce choix à chaque lancement de l'application.</li>
+<li>Paramètres → Ruban LED → Connecter, puis choisir <b>HYPNOGEN-RUBAN</b> dans la liste. Chrome demande ce choix à chaque lancement de l'application.</li>
 <li>La première fois, autorisez Chrome à accéder aux « Appareils à proximité ».</li>
 <li>Une fois connecté, toute la lumière passe par le ruban et l'écran reste noir. Le témoin de la carte clignote en attente et reste allumé une fois connecté.</li>
 <li>Bluetooth web : Chrome sur Android. Safari sur iPhone ne le propose pas.</li>
 </ul>
 <h3>Synchronisation et calage</h3>
-<p>Le téléphone n'envoie pas un ordre par flash : il envoie la phase du battement 0,8 s à l'avance, et la carte calcule la lumière elle-même, sur une horloge commune recalée chaque seconde (précision affichée dans Réglages). Le retard du ruban se cale comme celui de l'écran : ruban connecté, « Caler cette sortie » remplace l'étape des billes par des flashs du ruban. Il est mémorisé à part pour chaque sortie audio.</p>
+<p>Le téléphone n'envoie pas un ordre par flash : il envoie la phase du battement 0,8 s à l'avance, et la carte calcule la lumière elle-même, sur une horloge commune recalée chaque seconde (précision affichée dans Paramètres). Le retard du ruban se cale comme celui de l'écran : ruban connecté, « Caler cette sortie » remplace l'étape des billes par des flashs du ruban. Il est mémorisé à part pour chaque sortie audio.</p>
 <h3>La séance GAMMA</h3>
 <p>Palier de 40 Hz, en impulsions, blanc chaud, 15 minutes conseillées, 20 au plus. Elle demande la zone bêta ouverte et le ruban connecté. Le son est forcément isochrone (le battement binaural ne porte pas 40 Hz). Elle se pratique <b>les yeux ouverts</b>, le ruban tourné vers un mur.</p>
 <h3>Sécurités du ruban</h3>
@@ -324,7 +324,7 @@ T = {
 <dt>Isochrone</dt><dd>Un seul son, dans les deux oreilles, dont le volume pulse au rythme de la séance. La crête du son coïncide avec le flash. Fonctionne aussi sur haut-parleur.</dd>
 <dt>Porteuse</dt><dd>Hauteur du son de base : 200 Hz (grave, comme le boîtier HYPNOGEN), 300 ou 400 Hz. Le battement binaural est en général le mieux perçu vers 400 Hz ; 200 Hz est plus doux pour dormir.</dd>
 </dl>
-<p>Ces réglages sont regroupés dans le bloc « Paramétrage son », ouvert au premier usage puis replié : son résumé (type de son, porteuse, volume, sortie) reste visible. Le détail de chaque réglage est dans la section suivante.</p>""",
+<p>Ces réglages sont dans la page Paramètres (bouton Paramètres en haut de l'écran, ou résumé juste au-dessus de « Lancer la séance »), rubriques Son et Sortie audio et calage. Le résumé de l'écran principal rappelle le type de son, la porteuse, le volume, la musique et la sortie. Le détail de chaque réglage est dans la section suivante.</p>""",
 
 "aide.reglages": """<h2>Les réglages en détail</h2>
 <p>Tous les réglages sont enregistrés dans le téléphone et retrouvés à l'ouverture suivante. Ils ne quittent jamais l'appareil.</p>
@@ -375,8 +375,8 @@ T = {
 </ol>
 <p>Taper un rythme est plus facile que de juger à l'œil si un flash et un clic coïncident, et votre temps de réaction, le même dans les deux étapes, s'annule en grande partie. « Régler à la main » saute la mesure et passe directement au curseur. Refaites le calage si vous changez de casque ou si la synchronisation vous semble dériver. La « latence annoncée par le navigateur » est donnée à titre indicatif : elle est souvent fausse en Bluetooth.</p>
 
-<h3>Paramétrage son replié</h3>
-<p>Une fois le premier réglage fait, le bloc son se replie et affiche son résumé. Touchez-le pour l'ouvrir et changer un réglage.</p>""",
+<h3>Écran principal et Paramètres</h3>
+<p>L'écran principal garde ce qui change d'une séance à l'autre : la séance, sa durée, le mode PROFIL ou MANUEL et l'intensité de la lumière. Tout le reste est dans la page Paramètres : profondeur, son, sortie audio et calage, fréquence personnelle, ruban LED, zone bêta, journal et langue. « Retour », le bouton retour du téléphone ou Échap la referment. Au premier usage, elle s'ouvre seule sur le réglage du son.</p>""",
 
 "aide.perso": """<h2>Mesurer votre fréquence personnelle</h2>
 <p>Les séances sont écrites autour de 10 Hz, la valeur moyenne du rythme alpha. Mais chacun a son propre pic alpha, quelque part entre 8 et 12 Hz environ. La mesure cherche la fréquence à laquelle la lumière produit chez vous les motifs les plus nets, puis décale les phases alpha des séances vers cette valeur.</p>
@@ -460,7 +460,7 @@ T = {
 "ruban.indispo@android": "Bluetooth web indisponible : ouvrez l'application dans Chrome",
 "ruban.indispo@pc": "Bluetooth web indisponible : ouvrez l'application dans Chrome ou Edge",
 "ruban.indispo@linux": "Bluetooth web indisponible : Chrome requis, avec chrome://flags/#enable-experimental-web-platform-features activé",
-"gamma.ruban@pc": "La séance GAMMA passe uniquement par le ruban LED : un écran ne peut pas produire 40 Hz proprement. Connectez le ruban dans Réglages, puis relancez.",
+"gamma.ruban@pc": "La séance GAMMA passe uniquement par le ruban LED : un écran ne peut pas produire 40 Hz proprement. Connectez le ruban dans Paramètres, puis relancez.",
 "avant.liste@pc": "<li>Casque stéréo obligatoire en binaural : le battement n'existe pas sur des haut-parleurs.</li><li>Luminosité de l'écran au maximum, pièce peu éclairée.</li><li>Yeux fermés, face à l'écran, à 40–60 cm. La fenêtre passe en plein écran pendant la séance.</li><li>Calez chaque sortie audio une fois (casque filaire, casque Bluetooth) : sa latence est mémorisée.</li>",
 "avant.os": "",
 "avant.os@pc": "<li>Coupez le filtre de lumière bleue et la luminosité automatique de l'écran, et suspendez les notifications.</li>",
@@ -540,6 +540,18 @@ T = {
 </ul>
 <h3>Ruban LED</h3>
 <ul><li>Chrome, après avoir activé chrome://flags/#enable-experimental-web-platform-features. Le service Bluetooth (BlueZ) doit tourner.</li></ul>""",
+
+# ---------- page Paramètres (v1.12) ----------
+"param.bouton": "Paramètres",
+"param.ouvrir": "Ouvrir les paramètres",
+"param.seance": "Cette séance",
+"param.sortie": "Sortie audio",
+"param.app": "Application",
+"param.lum.note": "L'intensité se règle sur l'écran principal, sous les séances.",
+"param.perso.note": "Votre fréquence alpha, mesurée en 150 secondes ; les séances peuvent s'y recaler.",
+"resume.alpha": "alpha {f} Hz",
+"resume.ruban": "ruban LED",
+"resume.beta": "zone bêta ouverte",
 }
 
 # ---------- séances : nom affiché, accroche, déroulé, ressenti, conseils ----------

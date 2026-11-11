@@ -42,12 +42,18 @@ Une fois installée, elle s'ouvre en plein écran et fonctionne sans réseau (ap
 - 11 séances à profil (RELAXATION, HYPNAGOGIE, ENDORMISSEMENT…), durée de 10 à 60 min.
 - 4 **méditations en musique** (SOUFFLE, TEMPLE, OCÉAN, AURORE) : nappe, bols chantants, mélodie et houle générés en
   direct, accordés sur la porteuse ; en binaural la nappe porte le même battement, en phase avec la lumière. SOUFFLE
-  guide la respiration (6 par minute), le son et la lumière respirent avec elle. Curseur **Musique** dans « Paramétrage son ».
+  guide la respiration (6 par minute), le son et la lumière respirent avec elle. Curseur **Musique** dans Paramètres → Son.
 - Mode **PROFIL** (la séance pilote la fréquence) ou **MANUEL** (fréquence fixe de 0,5 à 14 Hz).
-- **Zone bêta** (Réglages, fermée par défaut) : s'ouvre après 3 séances notées d'au moins 10 min et un questionnaire
+- **Écran principal** : les séances, la fiche de la séance choisie, sa durée, le mode PROFIL ou MANUEL et l'intensité
+  de la lumière, puis « Lancer la séance », qui reste collé au bas de l'écran. Un résumé (son, porteuse, volume, musique,
+  sortie et son retard, ruban, zone bêta) ouvre la page **Paramètres**.
+- **Paramètres** (bouton en haut, ou résumé) : profondeur, son, sortie audio et calage, fréquence personnelle, ruban LED,
+  zone bêta, journal, langue. Fermée par « Retour », le bouton retour du téléphone ou Échap. Au premier usage, elle s'ouvre
+  seule sur le réglage du son.
+- **Zone bêta** (Paramètres, fermée par défaut) : s'ouvre après 3 séances notées d'au moins 10 min et un questionnaire
   dédié. Elle donne accès à la séance CONCENTRATION et au manuel jusqu'à 25 Hz. Au-dessus de 14 Hz : lumière ≤ 40 %,
   profondeur ≤ 50 %, sinus imposé, 10 min au plus par séance, lumière coupée si l'écran tourne sous 50 i/s.
-- **Ruban LED** (Réglages, Chrome ou Edge sur Android, Windows, Mac ; Chrome avec option expérimentale sous Linux ; jamais sur iPhone) : le téléphone pilote le ruban de la carte HYPNOGEN par Bluetooth
+- **Ruban LED** (Paramètres, Chrome ou Edge sur Android, Windows, Mac ; Chrome avec option expérimentale sous Linux ; jamais sur iPhone) : le téléphone pilote le ruban de la carte HYPNOGEN par Bluetooth
   basse consommation, hors ligne. Toute la lumière passe alors par le ruban, l'écran reste noir.
   Firmware et protocole : dossier [`ruban/`](ruban/README.md).
 - **GAMMA** (zone bêta + ruban) : palier à 40 Hz, son isochrone imposé, lumière ≤ 50 %, 20 min au plus, yeux ouverts.
