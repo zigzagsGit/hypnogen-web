@@ -330,7 +330,7 @@ T = {
 <p>Tous les réglages sont enregistrés dans le téléphone et retrouvés à l'ouverture suivante. Ils ne quittent jamais l'appareil.</p>
 
 <h3>Séance</h3>
-<p>Le bandeau du haut fait défiler les onze séances. En choisir une affiche son profil (courbe de la fréquence dans le temps) et applique sa durée conseillée. La bande rouge du profil marque la zone 15–25 Hz, que l'application n'atteint pas tant que la zone bêta est fermée. Le lien « Fiche complète » ouvre la description détaillée de la séance.</p>
+<p>En haut de l'écran principal, choisis une séance : sa carte donne son nom et sa durée conseillée, et sa fiche dit à quoi elle sert. La durée conseillée est appliquée ; tu peux la changer juste en dessous. Le lien « Fiche complète de la séance » ouvre sa description détaillée dans cette aide, avec la courbe de la fréquence dans le temps et le tableau des phases. La bande rouge des courbes marque la zone 15–25 Hz, que l'application n'atteint pas tant que la zone bêta est fermée.</p>
 
 <h3>Durée</h3>
 <p>10, 15, 20, 25, 30, 45 ou 60 minutes. Toutes les phases s'allongent ou se resserrent dans les mêmes proportions : une séance raccourcie garde sa progression, elle la parcourt simplement plus vite. Les phases très courtes laissent moins de temps pour s'installer ; en dessous de la moitié de la durée conseillée, l'effet est souvent plus faible.</p>
@@ -414,7 +414,7 @@ T = {
 <li>le plafond de 14 Hz est toujours respecté.</li>
 </ul>
 <p>Exemple avec une fréquence personnelle de 9 Hz : 10 Hz devient 9 Hz, 8,5 Hz devient 8 Hz, 12 Hz devient 11,67 Hz ; 7 et 13 Hz restent tels quels. Avec 11 Hz : 10 Hz devient 11 Hz et 12 Hz devient 12,33 Hz.</p>
-<p>Le profil affiché sur l'écran principal tient compte du recalage. Les profils de cette aide, eux, montrent les séances d'origine. Le recalage ne s'applique pas en mode MANUEL.</p>
+<p>Les courbes de cette aide montrent les séances d'origine, sans recalage. Le recalage ne s'applique pas en mode MANUEL.</p>
 
 <h3>Conseils</h3>
 <ul>
@@ -552,6 +552,9 @@ T = {
 "resume.alpha": "alpha {f} Hz",
 "resume.ruban": "ruban LED",
 "resume.beta": "zone bêta ouverte",
+
+# ---------- écran principal sans données techniques (v1.13) ----------
+"fiche.duree": "Durée conseillée",
 }
 
 # ---------- séances : nom affiché, accroche, déroulé, ressenti, conseils ----------
